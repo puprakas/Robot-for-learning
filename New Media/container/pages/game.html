@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>New Media Lab</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous"/>
+		<link rel="stylesheet" href="../styles/style.css" >
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	</head>
+	<body  onload = "followMouse();">
+		<div class="curtain">
+			<div id="ball"></div>
+			<div class="container-fluid main">
+				<div id="super_button" class="btn toggle-btn">Toggle</div> <!-- do not remove yet -->
+				<div class="row">
+					<div class="col-8">
+						<div class="highlight"></div>
+						<div class="board-bg">
+							<div class="board">
+							</div>
+						</div>
+						<div class="container available-options">
+							<div class="row mt-4">
+								<div class=" col-md-2 col-xs-4 mt-3">
+									<div class="option red-option"></div>
+								</div>
+								<div class=" col-md-2 col-xs-4 mt-3">
+									<div class="option orange-option"></div>
+								</div>
+								<div class=" col-md-2 col-xs-4 mt-3">
+									<div class="option yellow-option"></div>
+								</div>
+								<div class=" col-md-2 col-xs-4 mt-3">
+									<div class="option green-option"></div>
+								</div>
+								<div class=" col-md-2 col-xs-4 mt-3">
+									<div class="option blue-option"></div>
+								</div>
+								<div class=" col-md-2 col-xs-4 mt-3">
+									<div class="option purple-option"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-4">
+						<div class="robo-screen">
+							<div class="robo-container">
+								<div class="robo">
+									<div class="robo-eyes">
+										<div class="left-eyeball eyeball"></div>
+										<div class="right-eyeball eyeball"></div>
+									</div>
+								</div>
+							</div>
+							<div class="text-box">Let's start with this row!</br>I think it's the fourth one, is that right?</div>
+						</div>
+						<div class="button-area">
+							<div id="positive" class="dialogue-btn btn-left">
+								<span class="away">Yes</span>
+								<span class="over">That is correct!</span>
+							</div>
+							<div id="positive" class="dialogue-btn btn-right">
+								<span class="away">No</span>
+								<span class="over">You are wrong!</span>
+							</div>
+						</div>
+						<div class="slider-area">
+							<input class="range-slider" type="range" min="1" max="100" step="0.1" value="50">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<footer>
+	<script type="text/javascript">
+		$('.curtain').fadeIn(3000)
+		var size = 8;
+		var board = $('.board');
+		for (var i = 0; i < size * size; i++) {
+			board.append('<div id= "square_'+ i +'" class="square"></div>');
+			// TODO
+			// let x = parseInt(i/size);
+			// let y = i%size;
+		}
+		var slider = $('.range-slider');
+		var highlighter = $('.highlight');
+		var square_h = parseInt($('.square').css("height").replace(/[^-\d\.]/g, '')) + 0.8;
+		var extra_padding = parseInt($('.board-bg').css("padding-top").replace(/[^-\d\.]/g, ''));
+		highlighter.css("margin-top", (extra_padding + (square_h * (size / 2))) + 'px');
+		slider.bind('input', function(){
+			let scale = Math.round(this.value * (size - 1 ) / 100);
+			highlighter.css("margin-top", extra_padding + square_h * scale + 'px');
+		});
+		var state = 0
+		$('#super_button').click(function() {
+			if (state==0) {
+				$('.button-area').css("display","none")
+				$('.slider-area').css("display","inline-block")
+				highlighter.css("display","block")
+				state=1
+			}
+			else {
+				$('.slider-area').css("display","none")
+				highlighter.css("display","none")
+				$('.button-area').css("display","flex")
+				state=0
+			}
+		});
+		var picked = false;
+		var on = document.addEventListener.bind(document);
+		var xmouse, ymouse;
+		on('mousemove', function (e) {
+			xmouse = e.clientX || e.pageX;
+			ymouse = e.clientY || e.pageY;
+		});
+		var ball = $('#ball');
+		var x = 0,
+		y = 0,
+		dx = 0,
+		dy = 0,
+		key = -1;
+		var followMouse = function followMouse() {
+			key = requestAnimationFrame(followMouse);
+			if(!x || !y) {
+				x = xmouse;
+				y = ymouse;
+			} else {
+				dx = (xmouse - x) * 0.125;
+				dy = (ymouse - y) * 0.125;
+				if(Math.abs(dx) + Math.abs(dy) < 0.1) {
+					x = xmouse;
+					y = ymouse;
+				} else {
+					x += dx;
+					y += dy;
+				}
+			}
+			x = x + 50 > $( document ).width() ? $( document ).width() - 50  : x;
+			y = y + 50 > $( document ).height() ? $( document ).height() - 50 : y;
+			ball.css("left", x + 'px');
+			ball.css("top", y + 'px');
+		};
+		$('.option').click(function() {
+			ball.removeClass();
+			ball.css('display', 'block');
+			ball.addClass(this.className.split(/\s+/)[1]);
+			picked = true;
+		})
+		$('.square').click(function() {
+			if(picked) {
+				if ($('#'+this.id).attr('class').split(' ').length > 1) {
+					$('#'+this.id).removeClass($('#'+this.id).attr('class').split(' ').pop());
+				}
+				$('#'+this.id).addClass(ball.attr('class'));
+				ball.css('display', 'none');
+				ball.removeClass();
+			}
+			else {
+				//LOCK?
+				if ($('#'+this.id).attr('class').split(' ').length > 1) {
+					$('#'+this.id).removeClass($('#'+this.id).attr('class').split(' ').pop());
+				}
+			}
+		});
+	</script>
+</footer>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>New Media Lab</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous"/>
+		<link rel="stylesheet" href="../styles/style.css" >
+		<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<div class="curtain">
+			<div class="container">
+				<div class="menu-board main-board">
+					<div class="caption-bg">
+						<h5>New Media Lab</h5>
+						<h3>Robots for Education</h3>
+					</div>
+				</div>
+				<div class="d-flex justify-content-around align-items-stretch mt-5">
+					<div class="menu-board sub-board">
+						<input type="radio" id="rainbow-game" name="game_mode" value="RainbowGame" checked="true">
+						<label for="rainbow-game">Rainbow Game</label><br>
+					</div>
+					<div class="menu-board sub-board">
+						<input type="radio" id="easy" name="difficulty" value="Easy" checked="true">
+						<label for="easy">Easy</label><br>
+						<input type="radio" id="normal" name="difficulty" value="Normal">
+						<label for="normal">Normal</label><br>
+						<input type="radio" id="hard" name="difficulty" value="Hard">
+						<label for="hard">Hard</label><br>
+					</div>
+				</div>
+				<div class="d-flex justify-content-around align-items-stretch mt-5">
+					<div class="pseudo-div">
+						<div class="start-btn">Start</div>
+					</div>
+					<div class="pseudo-div"></div>
+				</div>
+			</div>
+			<div class="gear-area">
+				<div class="gear gear-l rotating"></div>
+				<div class="gear gear-sm rotating-rev"></div>
+			</div>
+		</div>
+	</body>
+	<footer>
+		<script type="text/javascript">
+			$('.curtain').fadeIn(3000)
+			$(".start-btn").click(() => {
+				var mode, level;
+				$('input[name$="game_mode"]').each( function () { this.checked ? mode = this.value : null })
+				$('input[name$="difficulty"]').each( function () { this.checked ? level = this.value : null })
+				$('.curtain').fadeOut(3000, () => {
+					window.location.href = 'game.html?mode='+mode+'+level='+level;
+				});
+			})
+		</script>
+	</footer>
+</html>
