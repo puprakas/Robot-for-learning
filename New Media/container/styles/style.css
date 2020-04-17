@@ -1,0 +1,495 @@
+body,
+html {
+  font: 400 1em/1.85 "Lato", sans-serif;
+  height: 100vh;
+  background: ##00ffb2;
+  background-image: url("../images/zenbg-1.png"), url("../images/zenbg-2.png");
+  background-repeat: repeat-x, repeat;
+}
+
+a {
+  cursor: pointer;
+}
+
+button:focus{
+  outline: none;
+}
+
+.main{
+}
+
+.toggle-btn{
+  position:fixed;
+  bottom: 10px;
+  right: 10px;
+  background-color: red;
+  cursor: pointer;
+  border-radius: 20%;
+  z-index: 9;
+}
+
+#blanket {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #ffffff;
+  z-index: 999;
+  display: none;
+}
+
+.board-bg{
+  margin: 0 4vw;
+  padding:4vh 0;
+  background-image: url("../images/abstract-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 0 0 12px 12px;
+  background-color: rgba(0,0,255,0.8);
+  -moz-box-shadow:    inset 0 0 8px #000000;
+  -webkit-box-shadow: inset 0 0 8px #000000;
+  box-shadow:         inset 0 0 8px #000000;
+}
+
+.board{
+  margin: auto;
+  width: 42vw;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.square{
+  min-height: 5vw;
+  width: 5vw;
+  border: 2px solid black;
+  border-radius: 6px;
+  -moz-box-shadow:    inset 0 0 4px #000000;
+  -webkit-box-shadow: inset 0 0 4px #000000;
+  box-shadow:         inset 0 0 4px #000000;
+  cursor: pointer;
+}
+
+.highlight {
+  margin-top: 0;
+  position: absolute;
+  left: 20%;
+  z-index: 99;
+  background-color: #84fb95;
+  background-image: linear-gradient(315deg, #84fb95 0%, #cef576 74%);
+  opacity: 0.75;
+  height: 5vw;
+  width: 60%;
+  display: none;
+  border-radius: 12px;
+}
+
+.available-options {
+  margin: 2vh auto 0 auto;
+  padding-bottom: 2vh;
+  border-radius: 6px;
+  width: 70%;
+  -moz-box-shadow:    inset 0 0 10px #000000;
+   -webkit-box-shadow: inset 0 0 10px #000000;
+   box-shadow:         inset 0 0 10px #000000;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: rgba(2,104,115,0.6);
+  background-image: linear-gradient(90deg, rgba(255,255,255,.07) 50%, transparent 50%),
+  linear-gradient(90deg, rgba(255,255,255,.13) 50%, transparent 50%),
+  linear-gradient(90deg, transparent 50%, rgba(255,255,255,.17) 50%),
+  linear-gradient(90deg, transparent 50%, rgba(255,255,255,.19) 50%);
+  background-size: 13px, 29px, 37px, 53px;
+}
+
+.option {
+  position: relative;
+  min-height: 3vw;
+  width: 3vw;
+  margin: auto;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  cursor: pointer;
+}
+
+#ball {
+  z-index: 999999;
+  width: 60px;
+  height: 60px;  
+  position: absolute;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  margin: -10px 0 0 -10px;
+  pointer-events: none;
+  display: none;
+}
+
+.hold {
+  border-radius: 50%;
+  transform: translate(0, 0);
+}
+
+.hovered {
+  background: #f4f4f4;
+  border-style: dashed;
+}
+
+.red-option {
+  background: rgb(0,0,0);
+  background: linear-gradient(340deg, rgba(255,0,0,1) 0%, rgba(255,0,0,1) 50%, rgba(255,255,255,1) 100%);
+}
+.orange-option {
+  background: rgb(0,0,0);
+  background: linear-gradient(340deg, rgba(255,106,0,1) 0%, rgba(255,106,0,1) 50%, rgba(255,255,255,1) 100%);
+}
+.yellow-option {
+  background: rgb(0,0,0);
+  background: linear-gradient(340deg, rgba(255,216,0,1) 0%, rgba(255,216,0,1) 50%, rgba(255,255,255,1) 100%);
+}
+.green-option {
+  background: rgb(0,0,0);
+  background: linear-gradient(340deg, rgba(76,255,0,1) 0%, rgba(76,255,0,1) 50%, rgba(255,255,255,1) 100%);
+}
+.blue-option {
+  background: rgb(0,0,0);
+  background: linear-gradient(340deg, rgba(0,38,255,1) 0%, rgba(0,38,255,1) 50%, rgba(255,255,255,1) 100%);
+}
+.purple-option {
+  background: rgb(0,0,0);
+  background: linear-gradient(340deg, rgba(178,0,255,1) 0%, rgba(178,0,255,1) 50%, rgba(255,255,255,1) 100%);
+}
+
+.robo-screen{
+  margin-top: 12vh;
+  background-image: linear-gradient(315deg, #0499f2 0%, #26f596 74%);
+  height: 60vh;
+  border-radius: 12px;
+  -moz-box-shadow:    inset 0 0 10px #000000;
+  -webkit-box-shadow: inset 0 0 10px #000000;
+  box-shadow:         inset 0 0 10px #000000;
+}
+
+.robo-container{
+  height: 45vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.robo{
+  background-image: url(../images/face.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 70%;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items:center;
+}
+
+.robo-eyes{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.eyeball{
+  height: 1.6rem;
+  width: 1.6rem;
+  border-radius: 50%;
+  background-color: #2D3142;
+  animation: moveIt 8s;
+  transition: all  .35s ease-in-out;
+}
+
+.robo:hover .left-eyeball{
+  height: 3.4rem;
+  width: 3.4rem;
+}
+.robo:hover .right-eyeball{
+  height: 2.8rem;
+  width: 2.8rem;
+}
+.robo:hover .eyeball{
+  border-radius: 50% 45% 55%;
+  margin-top: -6vh;
+}
+
+.text-box{
+  padding: 20px;
+  height:15vh;
+  background-color: rgba(255,255,255,1);
+  font-family: 'Roboto Slab', serif;
+  font-size: 1rem;
+  -moz-box-shadow:    inset 0 0 10px #000000;
+   -webkit-box-shadow: inset 0 0 10px #000000;
+   box-shadow:         inset 0 0 10px #000000;
+  border-radius: 0 0 12px 12px;
+}
+
+.robo:hover {
+  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.slider-area{
+  text-align: center;
+  margin-top:12vh;
+  width: 100%;
+  display: none;
+}
+
+.range-slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 80%; /* Full-width */
+  height: 25px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+  border-radius: 8px;
+  padding: 0 8px;
+}
+
+/* Mouse-over effects */
+.range-slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #2D3142; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.range-slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #2D3142; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.button-area{
+  display: flex;
+  justify-content: space-around;
+  margin-top:12vh;
+}
+   
+.dialogue-btn{
+  box-sizing: border-box;
+  display: table;
+  width: 220px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
+  transition: background 1s;
+  cursor: pointer;
+  background-color: #f6fba2;
+  border-radius: 8px;
+}
+
+.btn-left{
+  background-image: linear-gradient(140deg, #f6fba2 0%, #20ded3 74%);
+}
+.btn-right {
+  background-image: linear-gradient(170deg, #f6fba2 0%, #20ded3 74%);
+}
+
+.btn-left span, .btn-right span {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    color: #2D3142;
+    box-shadow: 0 0 0 3px #2D3142 inset;
+    background: transparent;
+}
+
+.btn-left span.away, .btn-right span.away{
+    display: table-cell;
+    vertical-align: middle;
+    text-align:center;
+  }
+  
+.btn-left span.over, .btn-right span.over{
+    display: none;
+  }
+
+.btn-left:hover span.away, .btn-right:hover span.away{
+    display: none;
+  }
+  
+  .btn-left:hover span.over, .btn-right:hover span.over{
+    display: table-cell;
+    vertical-align: middle;
+    text-align:center;
+    color: white;
+    box-shadow: none;
+  }
+  
+ .btn-left:hover, .btn-right:hover{
+    background: #2D3142;
+  }
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes zoomEffect {
+    0% {
+        background-size: 65vw 65vh;
+    }
+    50% {
+        background-size:  60vw 60vh;
+    }
+    100% {
+        background-size:  65vw 65vh;
+    }
+}
+
+@-webkit-keyframes zoomEffect {
+    0% {
+        background-size: 65vw 80vh;
+    }
+    50% {
+        background-size:  60vw 60vh;
+    }
+    100% {
+        background-size:  65vw 65vh;
+    }
+}
+
+@keyframes moveIt {
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 0.6;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+  .button-area, .slider-area {
+    margin-top: 6vh;
+  }
+  .dialogue-btn {
+    width: 100px;
+  }
+  .robo-container {
+    height: 23vh;
+  }
+  .robo-screen {
+    margin-top: 6vh;
+    height: 38vh;
+  }
+  .robo-eyes{
+  }
+  .highlight {
+    left: 15%;
+    width: 70%;
+  }
+  .eyeball {
+    height: 0.8rem;
+    width: 0.8rem;
+  }
+  .robo:hover .eyeball {
+    height: 2rem;
+    width: 2rem;
+    margin-top: -4vh;
+  }
+}
+
+@media only screen and (max-height: 1024px) {
+  .button-area {
+    margin-top: 8vh;
+  }
+
+}
+
+
+
+@media screen and (max-width: 991px) {
+  .button-area{
+    flex-direction: column;
+    margin-top: 14vh;
+  }
+  .dialogue-btn {
+    width: 100px;
+  }
+  .text-box{
+    font-size: 0.8rem;
+    height:auto;
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+  .available-options {
+        padding: 2vw;
+  }
+  .option {
+    min-height: 6vw;
+    width: 6vw;
+    margin: 2vh;
+  }
+  .board {
+    width: 52vw;
+  }
+  .square {
+    min-height: 6vw;
+    width: 6vw;
+  }
+
+}
+
+@media screen and (max-width: 479px) {
+
+}
