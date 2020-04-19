@@ -14,7 +14,6 @@
 		<div class="curtain">
 			<div id="ball"></div>
 			<div class="container-fluid main">
-				<div id="super_button" class="btn toggle-btn">Toggle</div> <!-- do not remove yet -->
 				<div class="row">
 					<div class="col-8">
 						<div class="highlight"></div>
@@ -22,25 +21,27 @@
 							<div class="board">
 							</div>
 						</div>
-						<div class="container available-options">
-							<div class="row mt-4">
-								<div class=" col-md-2 col-xs-4 mt-3">
-									<div class="option red-option"></div>
-								</div>
-								<div class=" col-md-2 col-xs-4 mt-3">
-									<div class="option orange-option"></div>
-								</div>
-								<div class=" col-md-2 col-xs-4 mt-3">
-									<div class="option yellow-option"></div>
-								</div>
-								<div class=" col-md-2 col-xs-4 mt-3">
-									<div class="option green-option"></div>
-								</div>
-								<div class=" col-md-2 col-xs-4 mt-3">
-									<div class="option blue-option"></div>
-								</div>
-								<div class=" col-md-2 col-xs-4 mt-3">
-									<div class="option purple-option"></div>
+						<div id='ball-area'>
+							<div class="container available-options">
+								<div class="row mt-4">
+									<div class=" col-md-2 col-xs-4 mt-3">
+										<div class="option red-option"></div>
+									</div>
+									<div class=" col-md-2 col-xs-4 mt-3">
+										<div class="option orange-option"></div>
+									</div>
+									<div class=" col-md-2 col-xs-4 mt-3">
+										<div class="option yellow-option"></div>
+									</div>
+									<div class=" col-md-2 col-xs-4 mt-3">
+										<div class="option green-option"></div>
+									</div>
+									<div class=" col-md-2 col-xs-4 mt-3">
+										<div class="option blue-option"></div>
+									</div>
+									<div class=" col-md-2 col-xs-4 mt-3">
+										<div class="option purple-option"></div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -55,20 +56,31 @@
 									</div>
 								</div>
 							</div>
-							<div class="text-box">Let's start with this row!</br>I think it's the fourth one, is that right?</div>
+							<div class="text-box"><p id='text-area'>Let's start with this row!</br>I think it's the fourth one, is that right?<p></div>
 						</div>
-						<div class="button-area">
-							<div id="positive" class="dialogue-btn btn-left">
-								<span class="away">Yes</span>
-								<span class="over">That is correct!</span>
-							</div>
-							<div id="positive" class="dialogue-btn btn-right">
-								<span class="away">No</span>
-								<span class="over">You are wrong!</span>
+						<div id='button-area'>
+							<div class="button-area">
+								<div id="positive" class="dialogue-btn btn-left">
+									<span class="away">Yes</span>
+									<span class="over">That is correct!</span>
+								</div>
+								<div id="positive" class="dialogue-btn btn-right">
+									<span class="away">No</span>
+									<span class="over">You are wrong!</span>
+								</div>
 							</div>
 						</div>
-						<div class="slider-area">
-							<input class="range-slider" type="range" min="1" max="100" step="0.1" value="50">
+						<div id='slider-area'>
+							<div class="slider-area">
+								<input class="range-slider" type="range" min="1" max="100" step="0.1" value="50">
+							</div>
+						</div>
+						<div id='numberinput-area'>
+							<div class="numberinput-area">
+								<div class="value-button" id="decrease" onclick="decreaseValue()" value="Decrease Value">-</div>
+								<input type="number" id="number" disabled value="1" />
+								<div class="value-button" id="increase" onclick="increaseValue()" value="Increase Value">+</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -81,6 +93,16 @@
 		$('.curtain').fadeIn(3000)
 		var size = 8;
 		var board = $('.board');
+		var board_state = [
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0]
+		]
 		for (var i = 0; i < size * size; i++) {
 			board.append('<div id= "square_'+ i +'" class="square"></div>');
 			// TODO
@@ -96,6 +118,7 @@
 			let scale = Math.round(this.value * (size - 1 ) / 100);
 			highlighter.css("margin-top", extra_padding + square_h * scale + 'px');
 		});
+		/*
 		var state = 0
 		$('#super_button').click(function() {
 			if (state==0) {
@@ -111,7 +134,23 @@
 				state=0
 			}
 		});
-		var picked = false;
+		*/
+		function increaseValue() {
+			var value = parseInt(document.getElementById('number').value, 10);
+			value = isNaN(value) ? 0 : value;
+			value > 7 ? value = 7 : '';
+			value++;
+			document.getElementById('number').value = value;
+			//console.log(document.getElementById('number').value);
+		}
+		function decreaseValue() {
+			var value = parseInt(document.getElementById('number').value, 10);
+			value = isNaN(value) ? 0 : value;
+			value < 2 ? value = 2 : '';
+			value--;
+			document.getElementById('number').value = value;
+			//console.log(document.getElementById('number').value);
+		}
 		var on = document.addEventListener.bind(document);
 		var xmouse, ymouse;
 		on('mousemove', function (e) {
@@ -145,6 +184,7 @@
 			ball.css("left", x + 'px');
 			ball.css("top", y + 'px');
 		};
+		var picked = false;
 		$('.option').click(function() {
 			ball.removeClass();
 			ball.css('display', 'block');
@@ -167,6 +207,76 @@
 				}
 			}
 		});
+		// HELPERS
+		var col_dict = {
+			'white': 0,
+			'red': 1,
+			'orange': 2,
+			'yellow': 3,
+			'green': 4,
+			'blue': 5,
+			'purple': 6
+		}
+		var target_img = [
+			[2,2,2,2,2,2,2,2],
+			[2,1,1,1,1,1,1,2],
+			[2,1,1,1,1,1,1,2],
+			[2,0,0,0,0,0,0,2],
+			[2,0,0,0,0,0,0,2],
+			[2,5,5,5,5,5,5,2],
+			[2,5,5,5,5,5,5,2],
+			[2,2,2,2,2,2,2,2]
+		]
+		function boardComplete(target_img) {
+			//return board_state.toString() == target_img.toString()
+			
+			for (j=0;j<size;j++) {
+				for (i=0;i<size;i++) {
+					if (target_img[i][j] != board_state[i][j])
+						return false
+					}
+			}
+			return true
+		}
+		function rowOccupied(x) {
+			return board_state[x].reduce(( accumulator, currentValue ) => accumulator + currentValue, 0) != 0
+		}
+		function squareOccupied(x, y) {
+			return board_state[x][y] != 0
+		}
+		function getRandomArbitrary(min, max) {
+			return Math.random() * (max - min) + min;
+		}
+		function getButtons() {
+			return $('#button-area')
+		}
+		function getSlider() {
+			return $('#slider-area')
+		}
+		function getNumberInput() {
+			return $('#numberinput-area')
+		}
+		function getBalls() {
+			return $('#ball-area')
+		}
+		function roboQuest(text, type = 0) {
+			switch(type){
+				case 0:
+					$('#button-area').fadeIn(2000)
+					break
+				case 1:
+					$('#numberinput-area').fadeIn(2000)
+					break
+				case 2:
+					$('#ball-area').fadeIn(2000)
+					break
+			}
+			$('#text-area').text(text) // to placeholder
+		}
+		// LOGIC
+		if (!boardComplete(target_img)){
+			roboQuest('haha!', type = 2)
+		}
 	</script>
 </footer>
 </html>
