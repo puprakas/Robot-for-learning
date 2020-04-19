@@ -261,6 +261,11 @@
 		}
 		function roboQuest(text, type = 0) {
 			switch(type){
+				case -1:
+					$('#button-area').fadeOut(2000)
+					$('#numberinput-area').fadeOut(2000)
+					$('#ball-area').fadeOut(2000)
+					break;
 				case 0:
 					$('#button-area').fadeIn(2000)
 					break
@@ -276,6 +281,7 @@
 		// LOGIC
 		if (!boardComplete(target_img)){
 			roboQuest('haha!', type = 2)
+			roboQuest('i just laughed!', -1)
 		}
 	</script>
 </footer>
