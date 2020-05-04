@@ -64,7 +64,7 @@
 									<span class="away">Yes</span>
 									<span class="over">That is correct!</span>
 								</div>
-								<div id="positive" class="dialogue-btn btn-right">
+								<div id="negative" class="dialogue-btn btn-right">
 									<span class="away">No</span>
 									<span class="over">You are wrong!</span>
 								</div>
@@ -190,31 +190,15 @@
 				ball.addClass(this.className.split(/\s+/)[1]);
 				picked = true;
 			})
-			$('.square').click(function() {
-				if(picked) {
-					if ($('#'+this.id).attr('class').split(' ').length > 1) {
-						$('#'+this.id).removeClass($('#'+this.id).attr('class').split(' ').pop());
-					}
-					$('#'+this.id).addClass(ball.attr('class'));
-					ball.css('display', 'none');
-					ball.removeClass();
-				}
-				else {
-					//LOCK?
-					if ($('#'+this.id).attr('class').split(' ').length > 1) {
-						$('#'+this.id).removeClass($('#'+this.id).attr('class').split(' ').pop());
-					}
-				}
-			});
 			// HELPERS
-			var col_dict = {
-				'white': 0,
-				'red': 1,
-				'orange': 2,
-				'yellow': 3,
-				'green': 4,
-				'blue': 5,
-				'purple': 6
+			var colour_dict = {
+				0:'white',
+				1:'red',
+				2:'orange',
+				3:'yellow',
+				4:'green',
+				5:'blue',
+				6:'purple'
 			}
 			var target_img = [
 				[2,2,2,2,2,2,2,2],
@@ -246,6 +230,9 @@
 				}
 				return sum;
 			}
+			function getKeyByValue(object, value) {
+				return Object.keys(object).find(key => object[key] === value);
+			}
 			function squareOccupied(x, y) {
 				return board_state[x][y] != 0
 			}
@@ -264,7 +251,7 @@
 			function getBalls() {
 				return $('#ball-area')
 			}
-			function highlightRow(x) { //7
+			function highlightRow(x) {
 				var highlighter = $('.highlight');
 				var square_h = parseInt($('.square').css("height").replace(/[^-\d\.]/g, '')) + 0.8;
 				var extra_padding = parseInt($('.board-bg').css("padding-top").replace(/[^-\d\.]/g, ''));
@@ -290,50 +277,108 @@
 				}
 				$('#text-area').text(text) // to placeholder
 			}
-			// experiment :
-			if (false){
-				roboQuest('haha!', type = 2)
-				roboQuest('i just laughed!', -1)
-			}
 			// logic :
-			
-			var current_row = getRandomNumber(0, 8)
-			while(rowOccupied(current_row)) {
-				current_row = getRandomNumber(0, 8)
-			}
-			p = getRandomNumber(-1, 3)
-			p = p == 2 ? 0 : p
-			p = current_row + p > 8 || current_row + p < 1 ? 0 : p
-			highlightRow(current_row)
-			roboQuest('i think its row number ' + (current_row + p + 1) + '. Do you think so too?', 0)
-			p=1 //FOR TESTING
-			if(p!=0) {
-				var robo_trials = 0
-				$('#positive').click( function() {
-					$('#button-area').fadeOut(2000)
-					roboQuest('oh shit i was wrong (so you are wrong!)\n which row do you think this is?', 1)
-				})
-				$('#negative').click( function() {
-					$('#button-area').fadeOut(2000)
+			var state = 0
+			if (state == 0) {
+				var current_row = getRandomNumber(0, 8)
+				while(rowOccupied(current_row)) { // FIX
+					current_row = getRandomNumber(0, 8)
+				}
+				p = getRandomNumber(-1, 3)
+				p = p == 2 ? 0 : p
+				p = current_row + p > 8 || current_row + p < 1 ? 0 : p
+				highlightRow(current_row)
+				roboQuest('i think its row number ' + (current_row + p + 1) + '. Do you think so too?', 0)
+				//p=1 //FOR TESTING
+				console.log('p'+p)
+				if(p!=0) {
+					var robo_trials = 0
+					$('#positive').click( function() {
+						$('#button-area').fadeOut(2000)
+						roboQuest('oh shit i was wrong (so you are wrong!)\n which row do you think this is?', 1)
+					})
+					$('#negative').click( function() {
+						console.log('!')
+						$('#button-area').fadeOut(2000)
 						roboQuest('oh shit nigga you are right that is not row '+ ( current_row  + p ) +'. which row do you think this is?', 1)
-				})
-				console.log(current_row)
-				$('.numberinput-btn').click(function() {
-					console.log($('#number').val())
-					if($('#number').val()==current_row) {
-						roboQuest('you are right kid')
-						console.log('true')
-					}
-					else{
-						roboQuest('')
-						roboQuest('you are wrong kid. try again', 1)
-						console.log('wrong')
-					}
-				})
-					
+					})
+					console.log(current_row)
+					$('.numberinput-btn').click(function() {
+						console.log($('#number').val())
+						if($('#number').val()==current_row) {
+							roboQuest('you are right kid')
+							console.log('true')
+							//sleep
+							insideRow()
+						}
+						else{
+							roboQuest('')
+							roboQuest('you are wrong kid. try again', 1)
+							console.log('wrong')
+						}
+					})
+				}
+				else {
+					$('#positive').click( function() {
+						$('#button-area').fadeOut(2000)
+						roboQuest('Yes we agree! this is indeed row ' + (current_row + 1))
+						insideRow()
+						console.log('state ' +state)
+					})
+					$('#negative').click( function() {
+						$('#button-area').fadeOut(2000)
+						roboQuest('YOU ARE WRONG KID I WAS TROLLING')
+					})
+				}
 			}
-			
-			
+			function insideRow(){
+				var current_col = getRandomNumber(0, 8)
+				var colour_key = getRandomNumber(1, 7)
+				$('.highlight').css ('display','none')
+				$('#text-area').text('Place the ' + colour_dict[colour_key] + ' ball in the ' + (current_col + 1) + 'th position of the ' + (current_row + 1) + ' row')
+				$('#ball-area').fadeIn(2000)
+				$('.square').click(function() {
+					if(picked) {
+						if ($('#'+this.id).attr('class').split(' ').length > 1) {
+							$('#'+this.id).removeClass($('#'+this.id).attr('class').split(' ').pop());
+						}
+						$('#'+this.id).addClass(ball.attr('class'));
+						var pickedKeyColour = getKeyByValue(colour_dict, ball.attr('class').split('-')[0])
+						ball.css('display', 'none');
+						ball.removeClass();
+						if(colour_key == pickedKeyColour) {
+							if(current_row != parseInt(this.id.split('_')[1]/8)) {
+								$('#text-area').text('Kid misclicked')
+							}
+							else {
+								if(current_col == this.id.split('_')[1]%8) {
+									//continue
+									alert('1')
+								}
+								else {
+									alert('2')
+
+								}
+							}
+						}
+						else {
+							alert('3')
+						}
+					}
+					else {
+						//LOCK?
+						if ($('#'+this.id).attr('class').split(' ').length > 1) {
+							$('#'+this.id).removeClass($('#'+this.id).attr('class').split(' ').pop());
+						}
+					}
+				});
+				/*
+				if ball placed::
+				square correct?
+				colour correct?
+				if color picked == color requested
+				*/
+			}
 			
 			
 		</script>
