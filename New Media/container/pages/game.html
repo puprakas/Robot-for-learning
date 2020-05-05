@@ -195,16 +195,8 @@
 				[0,0,0,0,0,0,0,0],
 				[0,0,0,0,0,0,0,0]
 			]
-			function boardComplete(target_img) {
-				//return board_state.toString() == target_img.toString()
-				
-				for (j=0;j<size;j++) {
-					for (i=0;i<size;i++) {
-						if (target_img[i][j] != board_state[i][j])
-							return false
-						}
-				}
-				return true
+			function imageFilled(target_img) {
+				return board_state.toString() == target_img.toString()
 			}
 			function rowOccupied(x) {
 				for (var i = 0; i < size; i++) {
@@ -227,26 +219,11 @@
 			function getKeyByValue(object, value) {
 				return Object.keys(object).find(key => object[key] === value);
 			}
-			function squareOccupied(x, y) {
-				return board_state[x][y] != 0
-			}
-			function squareWhite(x, y) {
-				return target_img[x][y] == 0
+			function squareOccupiedOrWhite(x, y) {
+				return board_state[x][y] != 0 || target_img[x][y] == 0
 			}
 			function getRandomNumber(min, max) {
 				return parseInt(Math.random() * (max - min) + min);
-			}
-			function getButtons() {
-				return $('#button-area')
-			}
-			function getSlider() {
-				return $('#slider-area')
-			}
-			function getNumberInput() {
-				return $('#numberinput-area')
-			}
-			function getBalls() {
-				return $('#ball-area')
 			}
 			function highlightRow(x) {
 				var highlighter = $('.highlight');
@@ -363,7 +340,7 @@
 				function insideRow(current_row){
 					alert('insideRow')
 					var current_col = getRandomNumber(0, 8)
-					while(squareOccupied(current_row, current_col) || squareWhite(current_row, current_col)) {
+					while(squareOccupiedOrWhite(current_row, current_col)) {
 						current_col = getRandomNumber(0, 8)
 					}
 					var colour_key = target_img[current_row][current_col]
