@@ -233,7 +233,7 @@
 						sum += board_state[i][j];
 					}
 				}
-				return sum;
+				return sum==8;
 			}
 			function numberToPrint(number) {
 				switch(number){
@@ -343,6 +343,7 @@
 								$('#dialogue-next').click(function() {
 									$('#text-area').text('Which row would this one be?')
 									$('#next-area').fadeOut(2000)
+									alert('test5')
 									$('#numberinput-area').fadeIn(2000)
 								});
 							})
@@ -354,6 +355,7 @@
 								$('#dialogue-next').click(function() {
 									$('#text-area').text('Which row do you think that is?')
 									$('#next-area').fadeOut(2000)
+									alert('test6')
 									$('#numberinput-area').fadeIn(2000)
 								});
 							})
@@ -387,6 +389,7 @@
 								$('#text-area').text('Yes we agree! That is indeed the ' + numberToPrint(current_row) + ' row.')
 								$('#next-area').fadeIn(2000)
 								$('#dialogue-next').click(function() {
+									$('#dialogue-next').unbind()
 									$('#next-area').fadeOut(2000)
 									setController(0)
 									alert('test1')
