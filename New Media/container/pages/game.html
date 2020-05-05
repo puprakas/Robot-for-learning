@@ -294,7 +294,9 @@
 				$('#text-area').text(text) // to placeholder
 			}
 
-			
+			function getHandlers() {
+				return [$('#dialogue-next'), $('#positive'), $('#negative'), $('.numberinput-btn'), $('.square')]
+			}
 			var init = true
 
 			var controller = [true, true]
@@ -434,6 +436,7 @@
 										alert('calling func')
 										$('#next-area').fadeIn(2000)
 										$('#dialogue-next').click(function() {
+											getHandlers().map(x => x.unbind())
 											func_1()
 										}); 
 									}
