@@ -99,21 +99,8 @@
 			$('.curtain').fadeIn(3000)
 			var size = 8;
 			var board = $('.board');
-			var board_state = [
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0]
-			]
 			for (var i = 0; i < size * size; i++) {
 				board.append('<div id= "square_'+ i +'" class="square"></div>');
-				// TODO
-				// let x = parseInt(i/size);
-				// let y = i%size;
 			}
 			var slider = $('.range-slider');
 			var highlighter = $('.highlight');
@@ -124,23 +111,6 @@
 				let scale = Math.round(this.value * (size - 1 ) / 100);
 				highlighter.css("margin-top", extra_padding + square_h * scale + 'px');
 			});
-			/*
-			var state = 0
-			$('#super_button').click(function() {
-				if (state==0) {
-					$('.button-area').css("display","none")
-					$('.slider-area').css("display","inline-block")
-					highlighter.css("display","block")
-					state=1
-				}
-				else {
-					$('.slider-area').css("display","none")
-					highlighter.css("display","none")
-					$('.button-area').css("display","flex")
-					state=0
-				}
-			});
-			*/
 			function increaseValue() {
 				var value = parseInt(document.getElementById('number').value, 10);
 				value = isNaN(value) ? 0 : value;
@@ -215,6 +185,16 @@
 				[2,5,5,5,5,5,5,2],
 				[2,2,2,2,2,2,2,2]
 			]
+			var board_state = [
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0]
+			]
 			function boardComplete(target_img) {
 				//return board_state.toString() == target_img.toString()
 				
@@ -227,13 +207,11 @@
 				return true
 			}
 			function rowOccupied(x) {
-				var sum = 0;
-				for (var i = 0; i < board_state.length; i++) {
-					for (var j = 0; j < board_state[i].length; j++) {
-						sum += board_state[i][j];
-					}
+				for (var i = 0; i < size; i++) {
+					if (board_state[x][i] != target_img[x][i]) 
+						return false
 				}
-				return sum==8;
+				return true
 			}
 			function numberToPrint(number) {
 				switch(number){
@@ -251,6 +229,9 @@
 			}
 			function squareOccupied(x, y) {
 				return board_state[x][y] != 0
+			}
+			function squareWhite(x, y) {
+				return target_img[x][y] == 0
 			}
 			function getRandomNumber(min, max) {
 				return parseInt(Math.random() * (max - min) + min);
@@ -274,49 +255,16 @@
 				highlighter.css("margin-top", extra_padding + square_h * x + 'px');
 				highlighter.css("display", 'block');
 			}
-			function roboQuest(text, type = -1) {
-				switch(type){
-					case -1:
-						$('#button-area').fadeOut(2000)
-						$('#numberinput-area').fadeOut(2000)
-						$('#ball-area').fadeOut(2000)
-						break;
-					case 0:
-						$('#button-area').fadeIn(2000)
-						break
-					case 1:
-						$('#numberinput-area').fadeIn(2000)
-						break
-					case 2:
-						$('#ball-area').fadeIn(2000)
-						break
-				}
-				$('#text-area').text(text) // to placeholder
-			}
-
 			function getHandlers() {
 				return [$('#dialogue-next'), $('#positive'), $('#negative'), $('.numberinput-btn'), $('.square')]
 			}
-			var init = true
-
-			var controller = [true, true]
-			function setController(i) {
-				controller[i] = false
-			}
-			function getController(i) {
-				return controller[i]
-			}
-
-			begin(init)
-			function begin(init = false) {
+			begin()
+			function begin() {
 				$('#text-area').text('Intro text')
 				$('#next-area').fadeIn(2000)
 				$('#dialogue-next').click(function() {
-					if (getController(0)) {
-						setController(0)
-						func_1()
-					}
-					
+					$('#dialogue-next').unbind()
+					func_1()					
 				});
 				function func_1() {
 						alert('func_1')
@@ -327,7 +275,7 @@
 						}
 						var p = getRandomNumber(-1, 3)
 						p = p == 2 ? 0 : p
-						//p=1
+						// p=1
 						p = current_row + p > 7 || current_row + p < 1 ? 0 : p
 						highlightRow(current_row)
 						$('#text-area').text('I think this is the '+ numberToPrint(current_row + p) + ' row. Do you think so too?')
@@ -341,6 +289,7 @@
 								// trial row
 								$('#next-area').fadeIn(2000)
 								$('#dialogue-next').click(function() {
+									$('#dialogue-next').unbind()
 									$('#text-area').text('Which row would this one be?')
 									$('#next-area').fadeOut(2000)
 									alert('test5')
@@ -353,6 +302,7 @@
 								// trial row
 								$('#next-area').fadeIn(2000)
 								$('#dialogue-next').click(function() {
+									$('#dialogue-next').unbind()
 									$('#text-area').text('Which row do you think that is?')
 									$('#next-area').fadeOut(2000)
 									alert('test6')
@@ -365,6 +315,7 @@
 									$('#numberinput-area').fadeOut(2000)
 									$('#next-area').fadeIn(2000)
 									$('#dialogue-next').click(function() {
+										$('#dialogue-next').unbind()
 										alert('test4')
 										$('#numberinput-area').fadeIn(2000)
 									});
@@ -375,6 +326,7 @@
 									$('#numberinput-area').fadeOut(2000)
 									$('#next-area').fadeIn(2000)
 									$('#dialogue-next').click(function() {
+										$('#dialogue-next').unbind()
 										$('#next-area').fadeOut(2000)
 										alert('test3')
 										insideRow(current_row)
@@ -391,7 +343,6 @@
 								$('#dialogue-next').click(function() {
 									$('#dialogue-next').unbind()
 									$('#next-area').fadeOut(2000)
-									setController(0)
 									alert('test1')
 									insideRow(current_row)
 								});
@@ -412,7 +363,10 @@
 				function insideRow(current_row){
 					alert('insideRow')
 					var current_col = getRandomNumber(0, 8)
-					var colour_key = getRandomNumber(1, 7)
+					while(squareOccupied(current_row, current_col) || squareWhite(current_row, current_col)) {
+						current_col = getRandomNumber(0, 8)
+					}
+					var colour_key = target_img[current_row][current_col]
 					$('.highlight').css ('display','none')
 					$('#text-area').text('Place the ' + colour_dict[colour_key] + ' ball in the ' + numberToPrint(current_col) + ' position of the ' + numberToPrint(current_row)  + ' row')
 					$('#ball-area').fadeIn(2000)
@@ -477,14 +431,9 @@
 							}
 						}
 					});
-					/*
-					if ball placed::
-					square correct?
-					colour correct?
-					if color picked == color requested
-					*/
-
 				}
+
+				//TODO - ALL WRONG
 				function colourTrial(req_colour){
 					$('#text-area').text('Pick the ' + colour_dict[req_colour] + ' ball.')
 					$('.option').click(function() {
