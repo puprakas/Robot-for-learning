@@ -85,6 +85,10 @@ button:focus{
   display: none;
 }
 
+#next-area {
+  display: none;
+}
+
 #button-area {
   display: none;
 }
@@ -99,6 +103,24 @@ button:focus{
 
 #ball-area {
   display: none;
+}
+
+#dialogue-next {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  width: 110px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
+  transition: background 1s;
+  cursor: pointer;
+  background-color: #f6fba2;
+  background-image: linear-gradient(140deg, #f6fba2 0%, #20ded3 74%);
+  color: #2D3142;
+  border-radius: 50%;
 }
 
 .value-button {
@@ -385,7 +407,14 @@ input[type=number]::-webkit-outer-spin-button {
   justify-content: space-around;
   margin-top:12vh;
 }
-   
+
+.next-area{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top:12vh;
+} 
+
 .dialogue-btn{
   box-sizing: border-box;
   display: table;
@@ -730,7 +759,7 @@ input[type="radio"]:checked:before {
 }
 
 @media only screen and (max-width: 800px) {
-  .button-area, .slider-area {
+  .button-area, .slider-area, .next-area {
     margin-top: 6vh;
   }
   .dialogue-btn {
@@ -761,7 +790,7 @@ input[type="radio"]:checked:before {
 }
 
 @media only screen and (max-height: 1024px) {
-  .button-area {
+  .button-area, .next-area {
     margin-top: 8vh;
   }
 
@@ -770,7 +799,7 @@ input[type="radio"]:checked:before {
 
 
 @media screen and (max-width: 991px) {
-  .button-area{
+  .button-area, .next-area{
     flex-direction: column;
     margin-top: 14vh;
   }
