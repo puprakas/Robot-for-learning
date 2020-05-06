@@ -200,7 +200,7 @@
 			}
 			function rowOccupied(x) {
 				for (var i = 0; i < size; i++) {
-					if (board_state[x][i] != target_img[x][i]) 
+					if (board_state[x][i] != target_img[x][i])
 						return false
 				}
 				return true
@@ -230,7 +230,7 @@
 				var square_h = parseInt($('.square').css("height").replace(/[^-\d\.]/g, '')) + 0.8;
 				var extra_padding = parseInt($('.board-bg').css("padding-top").replace(/[^-\d\.]/g, ''));
 				highlighter.css("margin-top", extra_padding + square_h * x + 'px');
-				highlighter.css("display", 'block');
+				highlighter.fadeIn(2000);
 			}
 			function getHandlers() {
 				return [$('#dialogue-next'), $('#positive'), $('#negative'), $('.numberinput-btn'), $('.square')]
@@ -240,111 +240,129 @@
 				$('#text-area').text('Intro text')
 				$('#next-area').fadeIn(2000)
 				$('#dialogue-next').click(function() {
-					$('#dialogue-next').unbind()
-					func_1()					
+					$('#next-area').fadeOut(1200, function() {
+						$('#dialogue-next').unbind()
+							main_flow()
+						})
 				});
-				function func_1() {
-						alert('func_1')
-						$('#next-area').fadeOut(2000)
+				function trialRow(requested_row, tries = 0) {
+					$('#numberinput-area').fadeIn(2000)
+					$('.numberinput-btn').click(function() {
+						if (tries==3) {
+							$('#numberinput-area').fadeOut(1200, function () {
+								$('#text-area').text('Oh, now I see! It is actually the ' + numberToPrint(requested_row) + ' row!')
+								// surprised
+								$('#next-area').fadeIn(2000)
+								$('#dialogue-next').click(function() {
+									$('#next-area').fadeOut(1200, function () {
+										$('#dialogue-next').unbind()
+										insideRow(requested_row)
+									});
+								})
+							})
+						}
+						else if (($('#number').val()-1)==requested_row) {
+							$('#text-area').text('You are right! Silly me! It is indeed the ' + numberToPrint(requested_row) + ' row!')
+							// happy
+							$('#numberinput-area').fadeOut(1200, function () {
+								$('#next-area').fadeIn(2000)
+								$('#dialogue-next').click(function() {
+									$('#dialogue-next').unbind()
+									$('#next-area').fadeOut(1200, function () {
+										insideRow(requested_row)
+									})
+								});
+							})
+						} else if ( ($('#number').val()-1) != requested_row || tries < 3) {
+							$('#numberinput-area').fadeOut(1200, function () {
+							tries = tries + 1
+							$('#text-area').text('Oh, that is not quite right! Let us try again.')
+							// sad
+								$('#next-area').fadeIn(2000)
+								$('#dialogue-next').click(function() {
+									$('#dialogue-next').unbind()
+									$('#next-area').fadeOut(1200, function () {
+										$('#text-area').text('Which row do you think that is?')
+										$('#numberinput-area').fadeIn(2000)
+									});
+								});
+							})
+						}
+						else {alert('unexpected?')}
+					})
+				}
+				function main_flow() {
+					$('#next-area').fadeOut(1200, function () {
 						var current_row = getRandomNumber(0, 8)
 						while(rowOccupied(current_row)) { // FIX
 							current_row = getRandomNumber(0, 8)
 						}
 						var p = getRandomNumber(-1, 3)
 						p = p == 2 ? 0 : p
-						// p=1
+						p=1
 						p = current_row + p > 7 || current_row + p < 1 ? 0 : p
 						highlightRow(current_row)
 						$('#text-area').text('I think this is the '+ numberToPrint(current_row + p) + ' row. Do you think so too?')
 						$('#button-area').fadeIn(2000)
-
 						if(p!=0) {
-							alert('p!=0')
 							$('#positive').click( function() {
-								$('#button-area').fadeOut(2000)
-								$('#text-area').text('oh shit i was wrong (so you are wrong!)')
-								// trial row
-								$('#next-area').fadeIn(2000)
-								$('#dialogue-next').click(function() {
-									$('#dialogue-next').unbind()
-									$('#text-area').text('Which row would this one be?')
-									$('#next-area').fadeOut(2000)
-									alert('test5')
-									$('#numberinput-area').fadeIn(2000)
-								});
+								$('#button-area').fadeOut(1200, function () {
+									$('#text-area').text("Oh no, wait! I think I was wrong after all. Which row would this one be?")
+									trialRow(current_row)
+									// $('#next-area').fadeIn(2000)
+									// $('#dialogue-next').click(function() {
+									// 	$('#dialogue-next').unbind()
+									// 	$('#text-area').text('Which row would this one be?')
+									// 	$('#next-area').fadeOut(1200, function () {
+									// 		$('#numberinput-area').fadeIn(2000)
+									// 	})
+									// });
+								})
 							})
 							$('#negative').click( function() {
-								$('#button-area').fadeOut(2000)
-								$('#text-area').text('oh shit nigga you are right that is not the ' + numberToPrint(current_row + p) +' row.')
-								// trial row
-								$('#next-area').fadeIn(2000)
-								$('#dialogue-next').click(function() {
-									$('#dialogue-next').unbind()
-									$('#text-area').text('Which row do you think that is?')
-									$('#next-area').fadeOut(2000)
-									alert('test6')
-									$('#numberinput-area').fadeIn(2000)
-								});
-							})
-							$('.numberinput-btn').click(function() {
-								while ( ($('#number').val()-1) != current_row) {
-									$('#text-area').text('Oh, I think this is wrong! Let us try again.')
-									$('#numberinput-area').fadeOut(2000)
+								$('#button-area').fadeOut(1200, function () {
+									$('#text-area').text('The which row do you think this is?')
+									// trial row
 									$('#next-area').fadeIn(2000)
-									$('#dialogue-next').click(function() {
-										$('#dialogue-next').unbind()
-										alert('test4')
-										$('#numberinput-area').fadeIn(2000)
-									});
-								}
-
-								if(($('#number').val()-1)==current_row) {
-									$('#text-area').text('Correct! You found the highlighted row!')
-									$('#numberinput-area').fadeOut(2000)
-									$('#next-area').fadeIn(2000)
-									$('#dialogue-next').click(function() {
-										$('#dialogue-next').unbind()
-										$('#next-area').fadeOut(2000)
-										alert('test3')
-										insideRow(current_row)
-									});
-								}
+									trialRow(current_row)
+								})
 							})
 						}
 						else {
-							alert('p==0')
 							$('#positive').click( function() {
-								$('#button-area').fadeOut(2000)
+								$('#button-area').fadeOut(1200, function () {
 								$('#text-area').text('Yes we agree! That is indeed the ' + numberToPrint(current_row) + ' row.')
 								$('#next-area').fadeIn(2000)
 								$('#dialogue-next').click(function() {
 									$('#dialogue-next').unbind()
-									$('#next-area').fadeOut(2000)
-									alert('test1')
-									insideRow(current_row)
+									$('#next-area').fadeOut(1200, function () {
+										insideRow(current_row)
+									})
 								});
 							})
+							})
 							$('#negative').click( function() {
-								$('#button-area').fadeOut(2000)
+								$('#button-area').fadeOut(1200, function () {
 								$('#text-area').text('Oh wait. I think I was right. That is indeed the ' + numberToPrint(current_row) + ' row.')
 								$('#next-area').fadeIn(2000)
 								$('#dialogue-next').click(function() {
-									$('#next-area').fadeOut(2000)
-									alert('test2')
-									insideRow(current_row)
+									$('#next-area').fadeOut(1200, function () {
+										insideRow(current_row)
+									})
+									
 								});
 							})
+							})
 						}
-						alert('end of func_1')
+					});
 				}
 				function insideRow(current_row){
-					alert('insideRow')
 					var current_col = getRandomNumber(0, 8)
 					while(squareOccupiedOrWhite(current_row, current_col)) {
 						current_col = getRandomNumber(0, 8)
 					}
 					var colour_key = target_img[current_row][current_col]
-					$('.highlight').css ('display','none')
+					$('.highlight').fadeOut(1200)
 					$('#text-area').text('Place the ' + colour_dict[colour_key] + ' ball in the ' + numberToPrint(current_col) + ' position of the ' + numberToPrint(current_row)  + ' row')
 					$('#ball-area').fadeIn(2000)
 					$('.square').click(function() {
@@ -358,24 +376,27 @@
 							ball.css('display', 'none');
 							ball.removeClass();
 							if(colour_key == pickedKeyColour) {
-								alert('correct colour')
 								if(current_row != parseInt(this.id.split('_')[1]/8)) {
 									$('#text-area').text('Kid misclicked')
 								}
 								else {
 									if(current_col == this.id.split('_')[1]%8) {
-										alert('correct col')
-										$('#text-area').text('Objective completed')
+										$('#text-area').text('Yay! We did it!')
 										board_state[current_row][current_col] =  target_img[current_row][current_col]
-										alert('calling func')
 										$('#next-area').fadeIn(2000)
 										$('#dialogue-next').click(function() {
 											getHandlers().map(x => x.unbind())
-											func_1()
-										}); 
+											$('#next-area').fadeOut(1200, function () {
+											$('#text-area').text('Let\'s keep going!')
+											$('#next-area').fadeIn(2000)
+											$('#dialogue-next').click(function() {
+												$('#next-area').unbind();
+												main_flow()
+											});
+											})
+										});
 									}
 									else {
-										alert('2')
 										$('#text-area').text('That is not the right square!')
 										$('#next-area').fadeIn(2000)
 										$('#dialogue-next').click(function() {
@@ -402,21 +423,18 @@
 						}
 						else {
 							//LOCK?
-							alert('222')
 							if ($('#'+curr_square.id).attr('class').split(' ').length > 1) {
 								$('#'+curr_square.id).removeClass($('#'+curr_square.id).attr('class').split(' ').pop());
 							}
 						}
 					});
 				}
-
 				//TODO - ALL WRONG
 				function colourTrial(req_colour){
 					$('#text-area').text('Pick the ' + colour_dict[req_colour] + ' ball.')
 					$('.option').click(function() {
 						var picked_ball = getKeyByValue(colour_dict, this.className.split(/\s+/)[1].split('-')[0])
 						if(picked_ball == req_colour) {
-							alert('yay')
 							$('#text-area').text('That is indeed the ' + colour_dict[req_colour] + ' ball.')
 							return
 						}
@@ -426,7 +444,7 @@
 							$('#text-area').text('That is not the requested ball. Pick the ' + colour_dict[req_colour] + ' ball.')
 							$('#next-area').fadeIn(2000)
 							$('#dialogue-next').click(function() {
-								$('#next-area').fadeOut(2000)
+								$('#next-area').fadeOut(1200)
 								colourTrial(req_colour)
 							});
 						}
