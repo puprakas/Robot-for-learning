@@ -167,9 +167,97 @@
 				ball.css("left", x + 'px');
 				ball.css("top", y + 'px');
 			};
+			function getImage(i) {
+				images = {
+					0: {
+						name: 'flag',
+						desc: 'our flag',
+						img: [
+							[2,2,2,2,2,2,2,2],
+							[2,1,1,1,1,1,1,2],
+							[2,1,1,1,1,1,1,2],
+							[2,0,0,0,0,0,0,2],
+							[2,0,0,0,0,0,0,2],
+							[2,5,5,5,5,5,5,2],
+							[2,5,5,5,5,5,5,2],
+							[2,2,2,2,2,2,2,2]
+						]
+					},
+					1: {
+						name: 'fruit',
+						desc: 'fruits',
+						img: [
+							[0,0,0,0,4,4,0,0],
+							[0,0,0,0,0,2,0,0],
+							[0,0,0,0,0,2,2,0],
+							[0,0,0,0,0,2,4,4],
+							[2,0,0,0,2,1,1,0],
+							[2,2,2,2,1,1,1,1],
+							[0,2,2,2,1,1,1,1],
+							[0,0,0,0,0,1,1,0]
+						]
+					},
+					2: {
+						name: 'flower',
+						desc: 'flowers',
+						img: [
+							[0,0,0,0,0,5,6,5],
+							[5,6,5,0,0,6,3,6],
+							[6,3,6,0,0,5,6,5],
+							[5,6,5,2,1,2,4,0],
+							[0,4,0,1,3,1,4,0],
+							[0,4,0,2,1,2,0,0],
+							[0,0,0,0,4,0,0,0],
+							[0,0,0,0,4,0,0,0]
+						]
+					},
+					3: {
+						name: 'lion',
+						desc: 'a lion',
+						img: [
+							[0,1,1,1,1,1,1,0],
+							[1,3,3,1,1,3,3,1],
+							[1,3,3,3,3,3,3,1],
+							[1,1,5,3,3,5,1,1],
+							[1,1,3,3,3,3,1,1],
+							[1,1,3,2,2,3,1,1],
+							[0,1,1,3,3,1,1,0],
+							[0,0,1,1,1,1,0,0]
+						]
+					},
+					4: {
+						name: 'rainbow',
+						desc: 'a rainbow',
+						img: [
+							[0,0,0,1,1,0,0,0],
+							[0,1,1,2,2,1,1,0],
+							[1,2,2,3,3,2,2,1],
+							[2,3,3,4,4,3,3,2],
+							[3,4,4,5,5,4,4,3],
+							[4,5,5,6,6,5,5,4],
+							[5,6,6,0,0,6,6,5],
+							[6,0,0,0,0,0,0,6]
+						]
+					}
+				}
+				return images[i]
+			}
+			let searchParams = new URLSearchParams(window.location.search)
+			var img_id = searchParams.has('mode') ?  searchParams.get('mode') : 0
+			var lvl = searchParams.has('level') ?  searchParams.get('level') : 0
 			var picked = false;
 			var locked = false
-			// HELPERS
+			var target_img = getImage(img_id).img
+			var board_state = [
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0]
+			]
 			function imageFilled() {
 				return board_state.toString() == target_img.toString()
 			}
@@ -293,7 +381,7 @@
 			}
 			function end_game() {
 				$('#next-area').fadeOut(400, function () {
-					$('#text-area').text('Wow! What a beautiful picture we have drawn! I think that is a ' + 'dragon' + '!')
+					$('#text-area').text('Wow! What a beautiful picture we have drawn! I think I can see ' + getImage(img_id).desc + ' in the picture!')
 					$('#next-area').fadeIn(900)
 					$('#dialogue-next').click(function() {
 						$('#dialogue-next').unbind()
@@ -302,7 +390,7 @@
 							$('#next-area').fadeIn(900)
 							$('#dialogue-next').click(function() {
 								$('#dialogue-next').unbind()
-								$('.curtain').fadeOut(3000, function() {
+								$('.curtain').fadeOut(2000, function() {
 									$('#ball-area').fadeIn(900)
 									$('#next-area').fadeOut(400)
 									$('.curtain').fadeIn(1500)
@@ -408,7 +496,7 @@
 									$('#dialogue-next').click(function() {
 										getHandlers().map(x => x.unbind())
 										$('#next-area').fadeOut(400, function () {
-											if(false){//if (!imageFilled()) {
+											if (!imageFilled()) {
 												$('#text-area').text('Let\'s keep going!')
 												$('#next-area').fadeIn(900)
 												$('#dialogue-next').click(function() {

@@ -21,8 +21,16 @@
 				</div>
 				<div class="d-flex justify-content-around align-items-stretch mt-5">
 					<div class="menu-board sub-board">
-						<input type="radio" id="rainbow-game" name="game_mode" value="RainbowGame" checked="true">
-						<label for="rainbow-game">Rainbow Game</label><br>
+						<input type="radio" id="flag" name="image_select" value="Flag" checked="true">
+						<label for="flag">Flag</label><br>
+						<input type="radio" id="fruit" name="image_select" value="Fruit">
+						<label for="fruit">Fruit</label><br>
+						<input type="radio" id="flower" name="image_select" value="Flower">
+						<label for="flower">Flower</label><br>
+						<input type="radio" id="lion" name="image_select" value="Lion">
+						<label for="lion">Lion</label><br>
+						<input type="radio" id="rainbow" name="image_select" value="Rainbow">
+						<label for="rainbow">Rainbow</label><br>
 					</div>
 					<div class="menu-board sub-board">
 						<input type="radio" id="easy" name="difficulty" value="Easy" checked="true">
@@ -48,13 +56,37 @@
 	</body>
 	<footer>
 		<script type="text/javascript">
-			$('.curtain').fadeIn(3000)
+			$('.curtain').fadeIn(2000)
+			function getDifficultyId(x){
+				switch(x){
+					case 'easy': 
+						return 0;
+					case 'normal': 
+						return 1;
+					case 'hard': 
+						return 2;
+				}
+			}
+			function getImageId(x){
+				switch(x){
+					case 'flag': 
+						return 0;
+					case 'fruit': 
+						return 1;
+					case 'flower': 
+						return 2;
+					case 'lion': 
+						return 3;
+					case 'rainbow': 
+						return 4;
+				}
+			}
 			$(".start-btn").click(() => {
 				var mode, level;
-				$('input[name$="game_mode"]').each( function () { this.checked ? mode = this.value : null })
+				$('input[name$="image_select"]').each( function () { this.checked ? mode = this.value : null })
 				$('input[name$="difficulty"]').each( function () { this.checked ? level = this.value : null })
-				$('.curtain').fadeOut(3000, () => {
-					window.location.href = 'game.html?mode='+mode+'+level='+level;
+				$('.curtain').fadeOut(2000, () => {
+					window.location.href = 'game.html?mode='+getImageId(mode.toLowerCase())+'&level='+getDifficultyId(level.toLowerCase());
 				});
 			})
 		</script>
