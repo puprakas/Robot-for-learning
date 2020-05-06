@@ -167,23 +167,23 @@
 				ball.css("left", x + 'px');
 				ball.css("top", y + 'px');
 			};
-			function animateFace(){
-				switch(x) {
+			function animateFace(expression){
+				switch(expression) {
 					case 0:
-						$( ".eyeball" ).each(function() {
-							$(this).removeClass().addClass('eyeball').removeClass('eyeball')
+						$('.robo-eyes').children().each(function() {
+							$(this).removeClass($(this).attr('class').split(' ').pop()).addClass('eyeball')
 						})
-						return
+						break
 					case 1:
-						$( ".eyeball" ).each(function() {
+						$('.robo-eyes').children().each(function() {
 							$(this).addClass('happy-eyeball').removeClass('eyeball')
 						})
-						return
+						break
 					case 1:
-						$( ".eyeball" ).each(function() {
+						$('.robo-eyes').children().each(function() {
 							$(this).addClass('sad-eyeball').removeClass('eyeball')
 						})
-						return
+						break
 				}
 			}
 			function getImage(i) {
@@ -373,9 +373,11 @@
 					else {
 						$('#positive').click( function() {
 							$('#button-area').fadeOut(400, function () {
+								animateFace(1)
 								$('#text-area').text('Yes we agree! That is indeed the ' + numberToPrint(req_row) + ' row.')
 								$('#next-area').fadeIn(900)
 								$('#dialogue-next').click(function() {
+									animateFace(0)
 									$('#dialogue-next').unbind()
 									$('#next-area').fadeOut(400, function () {
 										insideRow(req_row)
@@ -484,6 +486,7 @@
 			function trialCol(req_row, req_col, req_colour, picked){
 				colours = getColours()
 				$('.square').click(function() {
+					animateFace(0)
 					var curr_square = this
 					if(picked) {
 						popColour($('#'+curr_square.id))
@@ -494,11 +497,13 @@
 							locked = true
 							if(req_row != parseInt(curr_square.id.split('_')[1]/8)) {
 								$('#text-area').text('This can\'t be the ' + numberToPrint(req_row) + ' row!')
+								animateFace(2)
 								row_indicator.fadeIn(2500, function() {
 									row_indicator.fadeOut(2500)
 								})
 								$('#next-area').fadeIn(900)
 								$('#dialogue-next').click(function() {
+									animateFace(0)
 									$('#dialogue-next').unbind()
 									$('#next-area').fadeOut(400, function() {
 										popColour($('#'+curr_square.id))
@@ -510,9 +515,11 @@
 							else if(req_col == curr_square.id.split('_')[1]%8) {
 								$('#ball-area').fadeOut(400, function() {
 									$('#text-area').text('Yay! We did it!')
+									animateFace(1)
 									board_state[req_row][req_col] =  target_img[req_row][req_col]
 									$('#next-area').fadeIn(900)
 									$('#dialogue-next').click(function() {
+										animateFace(0)
 										getHandlers().map(x => x.unbind())
 										$('#next-area').fadeOut(400, function () {
 											if (!imageFilled()) {
