@@ -440,9 +440,10 @@
 					if (t_counter==2) {
 						$('#numberinput-area').fadeOut(400, function () {
 							$('#text-area').text('Oh, now I see! It is actually the ' + numberToPrint(req_row) + ' row!')
-							// surprised
+							animateFace(1)
 							$('#next-area').fadeIn(900)
 							$('#dialogue-next').click(function() {
+								animateFace(0)
 								$('#next-area').fadeOut(400, function () {
 									row_indicator.fadeOut(400)
 									$('#dialogue-next').unbind()
@@ -453,10 +454,11 @@
 					}
 					else if (($('#number').val()-1)==req_row) {
 						$('#text-area').text('You are right! Silly me! It is indeed the ' + numberToPrint(req_row) + ' row!')
-						// happy
+						animateFace(2)
 						$('#numberinput-area').fadeOut(400, function () {
 							$('#next-area').fadeIn(900)
 							$('#dialogue-next').click(function() {
+								animateFace(0)
 								$('#dialogue-next').unbind()
 								$('#next-area').fadeOut(400, function () {
 									insideRow(req_row)
@@ -467,9 +469,10 @@
 						$('#numberinput-area').fadeOut(400, function () {
 						t_counter = t_counter + 1
 						$('#text-area').text('Oh, that is not quite right! Let us try again.')
-						// sad
+						animateFace(2)
 							$('#next-area').fadeIn(900)
 							$('#dialogue-next').click(function() {
+								animateFace(0)
 								$('#dialogue-next').unbind()
 								$('#next-area').fadeOut(400, function () {
 									$('#text-area').text('Which row do you think that is?')
