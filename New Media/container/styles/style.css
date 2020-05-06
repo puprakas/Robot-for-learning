@@ -341,10 +341,45 @@ input[type=number]::-webkit-outer-spin-button {
   width: 1.6rem;
   border-radius: 50%;
   background-color: #2D3142;
-  animation: moveIt 8s;
   transition: all  .35s ease-in-out;
 }
+.happy-eyeball {
+    border: solid #2D3142;
+    border-width: 0 0.4rem 0.4rem 0;
+    display: inline-block;
+    padding: 1.2rem;
+    margin-top: -3rem;
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+    -webkit-animation: moveIt 0.5s linear infinite;
+    -moz-animation: moveIt 0.5s linear infinite;
+    -ms-animation: moveIt 0.5s linear infinite;
+    -o-animation: moveIt 0.5s linear infinite;
+    animation: moveIt 0.5s linear infinite;
+}
+.sad-eyeball {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    margin-top: -3rem;
+}
+.sad-eyeball:after {
+    content: '';
+    height: 4rem;
+    border-left: 0.4rem solid #2D3142;
+    position: absolute;
+    transform: rotate(45deg);
+    left: 2rem;
+}
 
+.sad-eyeball:before {
+    content: '';
+    height: 4rem;
+    border-left: 0.4rem solid #2D3142;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: 2rem;
+}
 .robo:hover .left-eyeball{
   height: 3.4rem;
   width: 3.4rem;
@@ -699,6 +734,15 @@ input[type="radio"]:checked:before {
 }
 
 @keyframes moveIt {
+    0%, 100% {
+        margin-top: -3rem;
+    }
+    50% {
+        margin-top: -1rem;
+    }
+    25%, 75% {
+        margin-top: -2rem;
+    }
 }
 
 @keyframes fadeIn {

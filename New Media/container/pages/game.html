@@ -167,6 +167,25 @@
 				ball.css("left", x + 'px');
 				ball.css("top", y + 'px');
 			};
+			function animateFace(){
+				switch(x) {
+					case 0:
+						$( ".eyeball" ).each(function() {
+							$(this).removeClass().addClass('eyeball').removeClass('eyeball')
+						})
+						return
+					case 1:
+						$( ".eyeball" ).each(function() {
+							$(this).addClass('happy-eyeball').removeClass('eyeball')
+						})
+						return
+					case 1:
+						$( ".eyeball" ).each(function() {
+							$(this).addClass('sad-eyeball').removeClass('eyeball')
+						})
+						return
+				}
+			}
 			function getImage(i) {
 				images = {
 					0: {
@@ -328,7 +347,7 @@
 			function mid_game() {
 				$('#next-area').fadeOut(400, function () {
 					var req_row = getRandomNumber(0, 8)
-					while(rowOccupied(req_row)) { // FIX
+					while(rowOccupied(req_row)) {
 						req_row = getRandomNumber(0, 8)
 					}
 					var p = getRandomNumber(-1, 3)
