@@ -71,6 +71,24 @@ button:focus{
   cursor: pointer;
 }
 
+.row_indicator {
+  display: none;
+  position: absolute;
+}
+
+.indicator {
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicator p {
+  font-weight: bold;
+  font-size: 1.6rem;
+  color: #000;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+} 
+
 .highlight {
   margin-top: 0;
   position: absolute;
@@ -631,6 +649,11 @@ input[type="radio"]:checked:before {
   -webkit-box-shadow: inset 0 0 8px #000000;
   box-shadow:         inset 0 0 8px #000000;
   border-radius: 6px;
+}
+
+.blink {
+    opacity: 0;
+    background-color: #DC143C;
 }
 
 @keyframes shake {

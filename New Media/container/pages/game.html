@@ -17,6 +17,7 @@
 				<div class="row">
 					<div class="col-8">
 						<div class="highlight"></div>
+						<div class="row_indicator"></div>
 						<div class="board-bg">
 							<div class="board">
 							</div>
@@ -111,6 +112,14 @@
 				let scale = Math.round(this.value * (size - 1 ) / 100);
 				highlighter.css("margin-top", extra_padding + square_h * scale + 'px');
 			});
+			var row_indicator = $('.row_indicator');
+			row_indicator.css("width", square_h)
+			row_indicator.css("top", extra_padding)
+			row_indicator.css('margin-left', board.css("margin-left"))
+			for (var i = 0; i < size; i++) {
+				row_indicator.append('<div id= "row_'+ i +'" class="indicator"><p>' + (i+1) + '</p></div>');
+			}
+			$('.indicator').css('height', square_h)
 			function increaseValue() {
 				var value = parseInt(document.getElementById('number').value, 10);
 				value = isNaN(value) ? 0 : value;
@@ -324,6 +333,7 @@
 							$('#next-area').fadeIn(1800)
 							$('#dialogue-next').click(function() {
 								$('#next-area').fadeOut(800, function () {
+									row_indicator.fadeOut(800)
 									$('#dialogue-next').unbind()
 									insideRow(req_row)
 								});
@@ -353,6 +363,9 @@
 								$('#next-area').fadeOut(800, function () {
 									$('#text-area').text('Which row do you think that is?')
 									$('#numberinput-area').fadeIn(1800)
+									if (t_counter==1) {
+										row_indicator.fadeIn(1800)
+									}
 								});
 							});
 						})
@@ -372,6 +385,9 @@
 							locked = true
 							if(req_row != parseInt(curr_square.id.split('_')[1]/8)) {
 								$('#text-area').text('This can\'t be the ' + numberToPrint(req_row) + ' row!')
+								row_indicator.fadeIn(2500, function() {
+									row_indicator.fadeOut(2500)
+								})
 								$('#next-area').fadeIn(1800)
 								$('#dialogue-next').click(function() {
 									$('#dialogue-next').unbind()
@@ -408,6 +424,14 @@
 								$('#dialogue-next').click(function() {
 									$('#dialogue-next').unbind()
 									$('#next-area').fadeOut(800, function() {
+										let target_square = $('#square_' + (req_row*size+req_col))
+										target_square.addClass('blink')
+										target_square.fadeTo(600, 1, function() {
+											target_square.fadeTo(600, 0.2, function() {
+												target_square.removeClass('blink')
+												target_square.removeAttr('style');
+											})
+										})
 										popColour($('#'+curr_square.id))
 										$('#text-area').text('Place the ' + colours[req_colour] + ' ball in the ' + numberToPrint(req_col) + ' square of the ' + numberToPrint(req_row) + ' row.')
 										locked = false
@@ -448,6 +472,7 @@
 								$('#dialogue-next').unbind()
 								$('#next-area').fadeOut(800)
 								$('#text-area').text('Now place it in the ' + numberToPrint(req_col) + ' square of the ' + numberToPrint(req_row) + ' row.')
+
 								trialCol(req_row, req_col, req_colour, picked)
 							})
 						}
