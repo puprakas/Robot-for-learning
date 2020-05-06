@@ -170,26 +170,6 @@
 			var picked = false;
 			var locked = false
 			// HELPERS
-			var target_img = [
-				[2,2,2,2,2,2,2,2],
-				[2,1,1,1,1,1,1,2],
-				[2,1,1,1,1,1,1,2],
-				[2,0,0,0,0,0,0,2],
-				[2,0,0,0,0,0,0,2],
-				[2,5,5,5,5,5,5,2],
-				[2,5,5,5,5,5,5,2],
-				[2,2,2,2,2,2,2,2]
-			]
-			var board_state = [
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0]
-			]
 			function imageFilled() {
 				return board_state.toString() == target_img.toString()
 			}
@@ -323,9 +303,11 @@
 							$('#dialogue-next').click(function() {
 								$('#dialogue-next').unbind()
 								$('.curtain').fadeOut(3000, function() {
-									$('.curtain').fadeIn(3000)
+									$('#ball-area').fadeIn(900)
+									$('#next-area').fadeOut(400)
+									$('.curtain').fadeIn(1500)
 									sandbox_mode()
-								}
+								})
 							})
 						})
 					})
@@ -426,18 +408,19 @@
 									$('#dialogue-next').click(function() {
 										getHandlers().map(x => x.unbind())
 										$('#next-area').fadeOut(400, function () {
-											$('#text-area').text('Let\'s keep going!')
-											$('#next-area').fadeIn(900)
-											$('#dialogue-next').click(function() {
-												$('#dialogue-next').unbind();
-												locked = false
-												if (!imageFilled()) {
+											if(false){//if (!imageFilled()) {
+												$('#text-area').text('Let\'s keep going!')
+												$('#next-area').fadeIn(900)
+												$('#dialogue-next').click(function() {
+													$('#dialogue-next').unbind();
+													locked = false
 													mid_game()
-												}
-												else {
-													end_game()
-												}
-											});
+													
+												});
+											}
+											else {
+												end_game()
+											}
 										})
 									});
 								})
@@ -491,11 +474,29 @@
 					}
 				})
 			}
-			sandbox_mode() {
-				getHandlers().map(x => x.unbind())
-				$('.square').attr('class').split(' ').length > 1 ? $('.square').removeClass($('.square').attr('class').split(' ').pop()) : null
+			function sandbox_mode() {
+				getHandlers().map(x => {x.unbind()})
+				$('.square').each(function(){
+					popColour($(this))
+				})
 				$('#text-area').text('Welcome to the sandbox mode! We can play as much you would like here!')
-
+				$('.option').click(function() {
+					ball.removeClass();
+					ball.css('display', 'block');
+					ball.addClass(this.className.split(/\s+/)[1]);
+					picked = true;
+				})
+				$('.square').click(function() {
+					if(picked) {
+						popColour($(this))
+						$('#'+this.id).addClass(ball.attr('class'));
+						ball.css('display', 'none');
+						ball.removeClass();
+					}
+					else {
+						popColour($(this))
+					}
+				});
 			}
 		</script>
 	</footer>
