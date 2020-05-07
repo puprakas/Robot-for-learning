@@ -423,9 +423,11 @@
 			}
 			function end_game() {
 				$('#next-area').fadeOut(400, function () {
+					animateFace(1)
 					$('#text-area').text('Wow! What a beautiful picture we have drawn! I think I can see ' + getImage(img_id).desc + ' in the picture!')
 					$('#next-area').fadeIn(900)
 					$('#dialogue-next').click(function() {
+						animateFace(0)
 						$('#dialogue-next').unbind()
 						$('#next-area').fadeOut(400, function () {
 							$('#text-area').text('I think we have enough time left to draw some more! Follow me!')
@@ -451,7 +453,7 @@
 				}
 				var req_colour = target_img[req_row][req_col]
 				$('.highlight').fadeOut(400)
-				$('#text-area').text('Place the ' + colours[req_colour] + ' ball in the ' + numberToPrint(req_col) + ' position of the ' + numberToPrint(req_row)  + ' row')
+				$('#text-area').text('Place the ' + colours[req_colour] + ' ball in the ' + numberToPrint(req_col) + ' position of the ' + numberToPrint(req_row)  + ' row.')
 				$('#ball-area').fadeIn(900)
 				trialColour(req_row, req_col, req_colour)
 			}
@@ -489,9 +491,9 @@
 					} else if ( ($('#number').val()-1) != req_row || t_counter < 2) {
 						$('#numberinput-area').fadeOut(400, function () {
 						t_counter = t_counter + 1
-						$('#text-area').text('Oh, that is not quite right! Let us try again.')
-						animateFace(2)
+						$('#text-area').text('Oh, that is not quite right. Let us try again!')
 							$('#next-area').fadeIn(900)
+							animateFace(2)
 							$('#dialogue-next').click(function() {
 								animateFace(0)
 								$('#dialogue-next').unbind()
@@ -510,7 +512,6 @@
 			function trialCol(req_row, req_col, req_colour, picked){
 				colours = getColours()
 				$('.square').click(function() {
-					animateFace(0)
 					var curr_square = this
 					if(picked) {
 						popColour($('#'+curr_square.id))
@@ -520,7 +521,7 @@
 							picked = false
 							locked = true
 							if(req_row != parseInt(curr_square.id.split('_')[1]/8)) {
-								$('#text-area').text('This can\'t be the ' + numberToPrint(req_row) + ' row!')
+								$('#text-area').text('This can\'t be the ' + numberToPrint(req_row) + ' row! I think that\'s the ' + parseInt(curr_square.id.split('_')[1]/8) + ' row.')
 								animateFace(2)
 								row_indicator.fadeIn(2500, function() {
 									row_indicator.fadeOut(2500)
@@ -553,7 +554,6 @@
 													$('#dialogue-next').unbind();
 													locked = false
 													mid_game()
-													
 												});
 											}
 											else {
@@ -598,7 +598,7 @@
 						$('#ball').addClass(this.className.split(/\s+/)[1])
 						picked = true
 						if(req_colour != chosen_colour) {
-							$('#text-area').text('That is not the requested ball. Pick the ' + colours[req_colour] + ' ball.')
+							$('#text-area').text('I don\'t think that is the ' + colours[req_colour] + ' ball!')
 							$('#ball').fadeOut(400, function() {
 								picked = false
 								locked = false
