@@ -135,37 +135,37 @@
 				document.getElementById('number').value = value;
 			}
 			var on = document.addEventListener.bind(document);
-			var xmouse, ymouse;
+			var cursorxmouse, cursorymouse;
 			on('mousemove', function (e) {
-				xmouse = e.clientX || e.pageX;
-				ymouse = e.clientY || e.pageY;
+				cursorxmouse = e.clientcursorX || e.pageX;
+				cursorymouse = e.clientY || ecursor.pageY;
 			});
 			var ball = $('#ball');
-			var x = 0,
-			y = 0,
-			dx = 0,
-			dy = 0,
+			var cursorx = 0,
+			cursory = 0,
+			dcursorx = 0,
+			dcursory = 0,
 			key = -1;
 			var followMouse = function followMouse() {
 				key = requestAnimationFrame(followMouse);
-				if(!x || !y) {
-					x = xmouse;
-					y = ymouse;
+				if(!cursorx || !cursory) {
+					cursorx = cursorxmouse;
+					cursory = cursorymouse;
 				} else {
-					dx = (xmouse - x) * 0.125;
-					dy = (ymouse - y) * 0.125;
-					if(Math.abs(dx) + Math.abs(dy) < 0.1) {
-						x = xmouse;
-						y = ymouse;
+					dcursorx = (cursorxmouse - cursorx) * 0.125;
+					dcursory = (cursorymouse - cursory) * 0.125;
+					if(Math.abs(dcursorx) + Math.abs(dcursory) < 0.1) {
+						cursorx = cursorxmouse;
+						cursory = cursorymouse;
 					} else {
-						x += dx;
-						y += dy;
+						cursorx += dcursorx;
+						cursory += dcursory;
 					}
 				}
-				x = x + 50 > $( document ).width() ? $( document ).width() - 50  : x;
-				y = y + 50 > $( document ).height() ? $( document ).height() - 50 : y;
-				ball.css("left", x + 'px');
-				ball.css("top", y + 'px');
+				cursorx = cursorx + 50 > $( document ).width() ? $( document ).width() - 50  : cursorx;
+				cursory = cursory + 50 > $( document ).height() ? $( document ).height() - 50 : cursory;
+				ball.css("left", cursorx + 'px');
+				ball.css("top", cursory + 'px');
 			};
 			function animateFace(expression){
 				switch(expression) {
@@ -298,16 +298,6 @@
 				[0,0,0,0,0,0,0,0],
 				[0,0,0,0,0,0,0,0]
 			]
-			function imageFilled() {
-				return board_state.toString() == target_img.toString()
-			}
-			function rowOccupied(x) {
-				for (var i = 0; i < size; i++) {
-					if (board_state[x][i] != target_img[x][i])
-						return false
-				}
-				return true
-			}
 			function getColours() {
 				return {
 					0:'white',
@@ -318,6 +308,27 @@
 					5:'blue',
 					6:'purple'
 				}
+			}
+			function getNoise(lvl, target_row) {
+				var noise = 0;
+				switch(lvl) {
+					case 1:
+						noise = getRandomNumber(-1, 3)
+						noise = noise == 2 ? 0 : noise
+						if(noise!=0) {
+							noise = target_row + noise > 7 ? -1 : noise
+							noise = target_row + noise < 1 ? 1 : noise
+						}
+						break
+					case 2:
+						noise = getRandomNumber(0, 7)
+						while (noise==target_row) {
+							noise = getRandomNumber(0, 7)
+						}
+						noise -= target_row
+						break
+				}
+				return noise
 			}
 			function numberToPrint(number) {
 				switch(number){
@@ -333,11 +344,26 @@
 			function getKeyByValue(object, value) {
 				return Object.keys(object).find(key => object[key] === value);
 			}
-			function squareOccupiedOrWhite(x, y) {
-				return board_state[x][y] != 0 || target_img[x][y] == 0
-			}
 			function getRandomNumber(min, max) {
-				return parseInt(Math.random() * (max - min) + min);
+			    return Math.floor(Math.random() * (max - min + 1)) + min;
+			}
+			function rowOccupied(check_row) {
+				for (var i = 0; i < size; i++) {
+					if (board_state[check_row][i] != target_img[check_row][i])
+						return false
+				}
+				return true
+			}
+			function squareOccupiedOrWhite(check_row, check_col) {
+				return board_state[check_row][check_col] != 0 || target_img[check_row][check_col] == 0
+			}
+			function imageFilled() {
+				return board_state.toString() == target_img.toString()
+			}
+			function popColour(obj) {
+				if (obj.attr('class').split(' ').length > 1) {
+					obj.removeClass(obj.attr('class').split(' ').pop());
+				}
 			}
 			function highlightRow(x) {
 				var highlighter = $('.highlight');
@@ -348,11 +374,6 @@
 			}
 			function getHandlers() {
 				return [$('#dialogue-next'), $('#positive'), $('#negative'), $('.numberinput-btn'), $('.square'), $('.option')]
-			}
-			function popColour(obj) {
-				if (obj.attr('class').split(' ').length > 1) {
-					obj.removeClass(obj.attr('class').split(' ').pop());
-				}
 			}
 			early_game()
 			function early_game() {
@@ -371,13 +392,11 @@
 					while(rowOccupied(req_row)) {
 						req_row = getRandomNumber(0, 8)
 					}
-					var p = getRandomNumber(-1, 3)
-					p = p == 2 ? 0 : p
-					p = req_row + p > 7 || req_row + p < 1 ? 0 : p
+					var noise = getNoise(lvl, req_row)
 					highlightRow(req_row)
-					$('#text-area').text('I think this is the '+ numberToPrint(req_row + p) + ' row. Do you think so too?')
+					$('#text-area').text('I think this is the '+ numberToPrint(req_row + noise) + ' row. Do you think so too?')
 					$('#button-area').fadeIn(900)
-					if(p!=0) {
+					if(noise!=0) {
 						$('#positive').click( function() {
 							$('#button-area').fadeOut(400, function () {
 								$('#text-area').text("Oh no, wait! I think I was wrong after all. Which row would this one be?")
@@ -463,10 +482,8 @@
 					if (t_counter==2) {
 						$('#numberinput-area').fadeOut(400, function () {
 							$('#text-area').text('Oh, now I see! It is actually the ' + numberToPrint(req_row) + ' row!')
-							animateFace(1)
 							$('#next-area').fadeIn(900)
 							$('#dialogue-next').click(function() {
-								animateFace(0)
 								$('#next-area').fadeOut(400, function () {
 									row_indicator.fadeOut(400)
 									$('#dialogue-next').unbind()
@@ -481,6 +498,7 @@
 						$('#numberinput-area').fadeOut(400, function () {
 							$('#next-area').fadeIn(900)
 							$('#dialogue-next').click(function() {
+								row_indicator.fadeOut(400)
 								animateFace(0)
 								$('#dialogue-next').unbind()
 								$('#next-area').fadeOut(400, function () {
