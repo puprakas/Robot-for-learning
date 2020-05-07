@@ -50,7 +50,7 @@
 					<div class="col-4">
 						<div class="robo-screen">
 							<div class="robo-container">
-								<div class="robo">
+								<div class="robo robo-hover">
 									<div class="robo-eyes">
 										<div class="left-eyeball eyeball"></div>
 										<div class="right-eyeball eyeball"></div>
@@ -173,16 +173,37 @@
 						$('.robo-eyes').children().each(function() {
 							$(this).removeClass($(this).attr('class').split(' ').pop()).addClass('eyeball')
 						})
+						$('.robo').hasClass('hop')
+							?$('.robo').removeClass('hop')
+							:null
+						$('.robo').hasClass('semi-rotate')
+							?$('.robo').removeClass('semi-rotate')
+							:null
+						$('.robo').addClass('robo-hover')
 						break
 					case 1:
 						$('.robo-eyes').children().each(function() {
-							$(this).addClass('happy-eyeball').removeClass('eyeball')
+							$(this).addClass('happy-eyeball')
+							$(this).hasClass('eyeball')
+								?$(this).removeClass('eyeball')
+								:null
 						})
+						$('.robo').addClass('hop')
+						$('.robo').hasClass('robo-hover')
+							?$('.robo').removeClass('robo-hover')
+							:null
 						break
-					case 1:
+					case 2:
 						$('.robo-eyes').children().each(function() {
-							$(this).addClass('sad-eyeball').removeClass('eyeball')
+							$(this).addClass('sad-eyeball')
+							$(this).hasClass('eyeball')
+								?$(this).removeClass('eyeball')
+								:null
 						})
+						$('.robo').addClass('semi-rotate')
+						$('.robo').hasClass('robo-hover')
+							?$('.robo').removeClass('robo-hover')
+							:null
 						break
 				}
 			}

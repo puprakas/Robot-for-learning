@@ -5,6 +5,7 @@ html {
   background: ##00ffb2;
   background-image: url("../images/zenbg-1.png"), url("../images/zenbg-2.png");
   background-repeat: repeat-x, repeat;
+  overflow-x: hidden;
 }
 
 a {
@@ -380,15 +381,15 @@ input[type=number]::-webkit-outer-spin-button {
     transform: rotate(-45deg);
     left: 2rem;
 }
-.robo:hover .left-eyeball{
+.robo-hover:hover .left-eyeball{
   height: 3.4rem;
   width: 3.4rem;
 }
-.robo:hover .right-eyeball{
+.robo-hover:hover .right-eyeball{
   height: 2.8rem;
   width: 2.8rem;
 }
-.robo:hover .eyeball{
+.robo-hover:hover .eyeball{
   border-radius: 50% 45% 55%;
   margin-top: -6vh;
 }
@@ -407,7 +408,7 @@ input[type=number]::-webkit-outer-spin-button {
   cursor: context-menu;
 }
 
-.robo:hover {
+.robo-hover:hover {
   animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
@@ -690,7 +691,40 @@ input[type="radio"]:checked:before {
     opacity: 0;
     background-color: #DC143C;
 }
-
+.notransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+.hop {
+  -webkit-animation: hop 1s linear infinite;
+  -moz-animation: hop 1s linear infinite;
+  -ms-animation: hop 1s linear infinite;
+  -o-animation: hop 1s linear infinite;
+  animation: hop 1s linear infinite;
+}
+.semi-rotate {
+  -webkit-animation: semi-rotating 2s linear infinite;
+  -moz-animation: semi-rotating 2s linear infinite;
+  -ms-animation: semi-rotating 2s linear infinite;
+  -o-animation: semi-rotating 2s linear infinite;
+  animation: semi-rotating 2s linear infinite;
+}
+@keyframes hop {
+  0%, 100%{
+    transform: translate3d(0, -2rem, 0);
+  }
+  10%, 90%{
+    transform: translate3d(0, -1rem, 0);
+  }
+  20%, 80%{
+    transform: translate3d(0, -0.5rem, 0);
+  }
+  50% {
+    transform: translate3d(0, 3rem, 0);
+  }
+}
 @keyframes shake {
   10%, 90% {
     transform: translate3d(-1px, 0, 0);
@@ -767,6 +801,47 @@ input[type="radio"]:checked:before {
     100% {
         opacity: 1;
     }
+}
+
+@-webkit-keyframes semi-rotating /* Safari and Chrome */ {
+  0%, 50%, 100% {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  25% {
+    -webkit-transform: rotate(10deg);
+    -o-transform: rotate(10deg);
+    transform: rotate(10deg);
+  }
+  75% {
+    -webkit-transform: rotate(-10deg);
+    -o-transform: rotate(-10deg);
+    transform: rotate(-10deg);
+  }
+}
+@keyframes semi-rotating {
+  0%, 50%, 100% {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  25% {
+    -ms-transform: rotate(10deg);
+    -moz-transform: rotate(10deg);
+    -webkit-transform: rotate(10deg);
+    -o-transform: rotate(10deg);
+    transform: rotate(10deg);
+  }
+  75% {
+    -ms-transform: rotate(-10deg);
+    -moz-transform: rotate(-10deg);
+    -webkit-transform: rotate(-10deg);
+    -o-transform: rotate(-10deg);
+    transform: rotate(-10deg);
+  }
 }
 
 @-webkit-keyframes rotating /* Safari and Chrome */ {
@@ -850,7 +925,7 @@ input[type="radio"]:checked:before {
     height: 0.8rem;
     width: 0.8rem;
   }
-  .robo:hover .eyeball {
+  .robo-hover:hover .eyeball {
     height: 2rem;
     width: 2rem;
     margin-top: -4vh;
@@ -863,8 +938,6 @@ input[type="radio"]:checked:before {
   }
 
 }
-
-
 
 @media screen and (max-width: 991px) {
   .button-area, .next-area{
