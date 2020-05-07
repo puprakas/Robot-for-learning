@@ -24,7 +24,18 @@ button:focus{
   left: 0;
   display: none;
 }
-.main{
+
+#lang-selector{
+  position:absolute;
+  bottom:2rem;
+  left:2rem;
+  cursor: pointer;
+  background-image: url("../images/uk-icon.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:4rem;
+  width:4rem;
 }
 
 .toggle-btn{
