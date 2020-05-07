@@ -18,7 +18,7 @@ var script = {
 		['I think this is the ', ' row. Do you think so too?'],
 		['Oh no, wait! I think I was wrong after all. Which row would this one be?'],
 		['Then which row do you think this is?'],
-		['Yes we agree! That is indeed the ', ' row.'],
+		['Yes we agree! That is indeed the ', ' row!'],
 		['Oh wait. I think I was right. That is indeed the ', ' row.'],
 		['Wow! What a beautiful picture we have drawn! I think I can see ', ' in the picture!'],
 		['I think we have enough time left to draw some more! Follow me!'],
