@@ -2,7 +2,7 @@
 			$('.curtain').fadeIn(3000)
 			var size = 8;
 			var board = $('.board');
-			for (var i = 0; i < size * size; i++) {
+			for (var i = size * size -1; i >= 0; i--) {
 				board.append('<div id= "square_'+ i +'" class="square"></div>');
 			}
 			var square_h = parseInt($('.square').css("height").replace(/[^-\d\.]/g, '')) + 0.8;
@@ -19,8 +19,8 @@
 			row_indicator.css("width", square_h)
 			row_indicator.css("top", extra_padding)
 			row_indicator.css('margin-left', board.css("margin-left"))
-			for (var i = 0; i < size; i++) {
-				row_indicator.append('<div id= "row_'+ i +'" class="indicator"><p>' + (i+1) + '</p></div>');
+			for (var i = size; i > 0; i--) {
+				row_indicator.append('<div id= "row_'+ i +'" class="indicator"><p>' + (i) + '</p></div>');
 			}
 			$('.indicator').css('height', square_h)
 			function increaseValue() {
@@ -137,12 +137,12 @@
 						},
 						img: [
 							[0,0,0,0,4,4,0,0],
-							[0,0,0,0,0,2,0,0],
-							[0,0,0,0,0,2,2,0],
-							[0,0,0,0,0,2,4,4],
-							[2,0,0,0,2,1,1,0],
-							[2,2,2,2,1,1,1,1],
-							[0,2,2,2,1,1,1,1],
+							[0,0,0,0,0,3,0,0],
+							[0,0,0,0,0,3,3,0],
+							[0,0,0,0,0,3,4,4],
+							[3,0,0,0,3,1,1,0],
+							[3,3,3,3,1,1,1,1],
+							[0,3,3,3,1,1,1,1],
 							[0,0,0,0,0,1,1,0]
 						]
 					},
@@ -229,7 +229,7 @@
 			}
 			function getNoise(lvl, target_row) {
 				var noise = 0;
-				switch(lvl) {
+				switch(parseInt(lvl)) {
 					case 1:
 						noise = getRandomNumber(-1, 2)
 						noise = noise == 2 ? 0 : noise
@@ -300,7 +300,7 @@
 				var highlighter = $('.highlight');
 				var square_h = parseInt($('.square').css("height").replace(/[^-\d\.]/g, '')) + 0.8;
 				var extra_padding = parseInt($('.board-bg').css("padding-top").replace(/[^-\d\.]/g, ''));
-				highlighter.css("margin-top", extra_padding + square_h * x + 'px');
+				highlighter.css("margin-top", extra_padding + square_h * (size-x-1) + 'px');
 				highlighter.fadeIn(900);
 			}
 			function getHandlers() {
@@ -319,9 +319,9 @@
 			}
 			function mid_game() {
 				$('#next-area').fadeOut(400, function () {
-					var req_row = getRandomNumber(0, 7)
+					var req_row = size - getRandomNumber(0, 7) - 1
 					while(rowOccupied(req_row)) {
-						req_row = getRandomNumber(0, 7)
+						req_row = size - getRandomNumber(0, 7) - 1
 					}
 					var noise = getNoise(lvl, req_row)
 					highlightRow(req_row)
@@ -410,6 +410,9 @@
 			function trialRow(req_row, t_counter = 0) {
 				$('#numberinput-area').fadeIn(900)
 				$('.numberinput-btn').click(function() {
+					if (t_counter==1) {
+						row_indicator.fadeIn(900)
+					}
 					if (t_counter==2) {
 						$('#numberinput-area').fadeOut(400, function () {
 							$('#text-area').text(script[lang][9][0] + numberToPrint(req_row) + script[lang][9][1])
@@ -449,9 +452,6 @@
 								$('#next-area').fadeOut(400, function () {
 									$('#text-area').text(script[lang][12][0])
 									$('#numberinput-area').fadeIn(900)
-									if (t_counter==1) {
-										row_indicator.fadeIn(900)
-									}
 								});
 							});
 						})
@@ -486,7 +486,7 @@
 									})
 								})
 							}
-							else if(req_col == curr_square.id.split('_')[1]%8) {
+							else if(req_col == ( size - curr_square.id.split('_')[1] % 8 -1)) {
 								$('#ball-area').fadeOut(400, function() {
 									$('#text-area').text(script[lang][15][0])
 									animateFace(1)
@@ -514,12 +514,12 @@
 							}
 							else {
 								$('#text-area').text(script[lang][17][0]
-									+ numberToPrint(curr_square.id.split('_')[1]%8) + script[lang][17][1])
+									+ numberToPrint( size - curr_square.id.split('_')[1] % 8 - 1) + script[lang][17][1])
 								$('#next-area').fadeIn(900)
 								$('#dialogue-next').click(function() {
 									$('#dialogue-next').unbind()
 									$('#next-area').fadeOut(400, function() {
-										let target_square = $('#square_' + (req_row*size+req_col))
+										let target_square = $('#square_' + (req_row*size+size-req_col-1))
 										target_square.addClass('blink')
 										target_square.fadeTo(600, 1, function() {
 											target_square.fadeTo(600, 0.2, function() {
@@ -568,17 +568,17 @@
 				})
 				$('#text-area').text(script[lang][20][0])
 				$('.option').click(function() {
-					ball.removeClass();
-					ball.css('display', 'block');
-					ball.addClass(this.className.split(/\s+/)[1]);
+					$('#ball').removeClass();
+					$('#ball').css('display', 'block');
+					$('#ball').addClass(this.className.split(/\s+/)[1]);
 					picked = true;
 				})
 				$('.square').click(function() {
 					if(picked) {
 						popColour($(this))
-						$('#'+this.id).addClass(ball.attr('class'));
-						ball.css('display', 'none');
-						ball.removeClass();
+						$('#'+this.id).addClass($('#ball').attr('class'));
+						$('#ball').css('display', 'none');
+						$('#ball').removeClass();
 					}
 					else {
 						popColour($(this))
