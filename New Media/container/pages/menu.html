@@ -21,6 +21,7 @@
 				</div>
 				<div class="d-flex justify-content-around align-items-stretch mt-5">
 					<div class="menu-board sub-board">
+						<div class='menu-header'>Pattern</div>
 						<input type="radio" id="flag" name="image_select" value="Flag" checked="true">
 						<label for="flag">Flag</label><br>
 						<input type="radio" id="fruit" name="image_select" value="Fruit">
@@ -33,6 +34,7 @@
 						<label for="rainbow">Rainbow</label><br>
 					</div>
 					<div class="menu-board sub-board">
+						<div class='menu-header'>Difficulty</div>
 						<input type="radio" id="easy" name="difficulty" value="Easy" checked="true">
 						<label for="easy">Easy</label><br>
 						<input type="radio" id="normal" name="difficulty" value="Normal">
@@ -42,10 +44,22 @@
 					</div>
 				</div>
 				<div class="d-flex justify-content-around align-items-stretch mt-5">
-					<div class="pseudo-div">
+					<div class="menu-board sub-board">
+						<div class='menu-header'>Languages</div>
+						<div class='d-flex justify-content-around'>
+							<div id='flag-1' class='flag-div'>
+								<div id='x-icon-1'><div class='flag-icon uk-icon'></div></div>
+								<div id='flag-icon-1' class='flag-icon uk-icon'></div>
+							</div>
+							<div id='flag-2' class='flag-div'>
+								<div id='x-icon-2'><div class='flag-icon nl-icon'></div></div>
+								<div id='flag-icon-2' class='flag-icon nl-icon'></div>
+							</div>
+						</div>
+					</div>					
+					<div class="start-div">
 						<div class="start-btn">Start</div>
 					</div>
-					<div class="pseudo-div"></div>
 				</div>
 			</div>
 			<div class="gear-area">
@@ -57,6 +71,58 @@
 	<footer>
 		<script type="text/javascript">
 			$('.curtain').fadeIn(2000)
+			var f_counter = 2
+			$('#flag-1').click(function() {
+				$('#flag-1').fadeOut(400, function() {
+					if ($('#x-icon-1').css('display') == 'none') {						
+						$('#x-icon-1').css('display', 'flex')
+						$('.uk-icon').css('display', 'block')
+						$('.uk-icon').css('opacity', '0.4')
+						$('#flag-icon-1').css('display', 'none')
+						if (f_counter == 1) {
+							$('#flag-2').trigger( "click" );
+						}
+						f_counter--
+					}
+					else {						
+						$('#x-icon-1').css('display', 'none')
+						$('.uk-icon').css('display', 'block')
+						$('.uk-icon').css('opacity', '1')
+						$('#flag-icon-1').css('display', 'block')
+						f_counter++
+					}
+					$('#flag-1').fadeIn(400)
+				})
+			})
+			$('#flag-2').click(function() {
+				$('#flag-2').fadeOut(400, function() {
+					if ($('#x-icon-2').css('display') == 'none') {						
+						$('#x-icon-2').css('display', 'flex')
+						$('.nl-icon').css('display', 'block')
+						$('.nl-icon').css('opacity', '0.4')
+						$('#flag-icon-2').css('display', 'none')
+						if (f_counter == 1) {
+							$('#flag-1').trigger( "click" );
+						}
+						f_counter--
+					}
+					else {						
+						$('#x-icon-2').css('display', 'none')
+						$('.nl-icon').css('display', 'block')
+						$('.nl-icon').css('opacity', '1')
+						$('#flag-icon-2').css('display', 'block')
+						f_counter++
+					}
+					$('#flag-2').fadeIn(400)
+				})
+			})
+			function getLanguageOptionId() {
+				let bool1 = !($('#flag-icon-1').css('display') == 'none')
+				let bool2 = !($('#flag-icon-2').css('display') == 'none')
+				if(bool1 && bool2)
+					return 0
+				return bool1 ? 1 : 2
+			}
 			function getDifficultyId(x){
 				switch(x){
 					case 'easy': 
@@ -86,7 +152,10 @@
 				$('input[name$="image_select"]').each( function () { this.checked ? mode = this.value : null })
 				$('input[name$="difficulty"]').each( function () { this.checked ? level = this.value : null })
 				$('.curtain').fadeOut(2000, () => {
-					window.location.href = 'game.html?mode='+getImageId(mode.toLowerCase())+'&level='+getDifficultyId(level.toLowerCase());
+					window.location.href = 'game.html?mode='
+						+getImageId(mode.toLowerCase())
+						+'&level='+getDifficultyId(level.toLowerCase())
+						+'&lang='+getLanguageOptionId();
 				});
 			})
 		</script>

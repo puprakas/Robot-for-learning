@@ -200,9 +200,16 @@
 				}
 				return images[i]
 			}
+			function getDefaultLang(i) {
+
+			}
 			let searchParams = new URLSearchParams(window.location.search)
 			var img_id = searchParams.has('mode') ?  searchParams.get('mode') : 0
 			var lvl = searchParams.has('level') ?  searchParams.get('level') : 0
+			var lang = searchParams.has('lang') && searchParams.get('lang') == 2 ? 'nl' : 'en'
+			if (searchParams.has('lang') && searchParams.get('lang') != 0) {
+				$('#lang-selector').remove()
+			}
 			var picked = false;
 			var locked = false
 			var target_img = getImage(img_id).img

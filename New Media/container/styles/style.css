@@ -36,6 +36,7 @@ button:focus{
   background-size: cover;
   height:4rem;
   width:4rem;
+  z-index: 99;
 }
 
 .toggle-btn{
@@ -357,10 +358,10 @@ input[type=number]::-webkit-outer-spin-button {
 }
 .happy-eyeball {
     border: solid #2D3142;
-    border-width: 0 0.4rem 0.4rem 0;
+    border-width: 0 0.6rem 0.6rem 0;
+    border-radius: 12px;
     display: inline-block;
     padding: 1.2rem;
-    margin-top: -3rem;
     transform: rotate(-135deg);
     -webkit-transform: rotate(-135deg);
     -webkit-animation: moveIt 0.5s linear infinite;
@@ -557,6 +558,15 @@ input[type=number]::-webkit-outer-spin-button {
   .sub-board{
     width: 40%;
     transition: opacity 1s, letter-spacing 0.4s;
+    padding-bottom: 4vh;
+  }
+
+  .menu-header{
+    font-size: 1.3rem;
+    font-weight: bold;
+    letter-spacing: 0.2px;
+    margin-bottom:0.6rem;
+    text-align: center;
   }
 
   .caption-bg h5{
@@ -602,7 +612,7 @@ input[type="radio"]:checked:before {
   background:#000;
 }
 
-.pseudo-div {
+.start-div {
   display: flex;
   justify-content: center;
   width: 40%;
@@ -631,6 +641,62 @@ input[type="radio"]:checked:before {
   letter-spacing: 0.2px;
 }
 
+.flag-icon{
+  margin-top: 0.6rem;
+  cursor: pointer;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.flag-div{
+  cursor: pointer;
+  margin-top: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:6rem;
+  width:6rem;
+}
+#x-icon-1{
+  height:5rem;
+  width:5rem;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../images/x-icon.png");
+  pointer-events: none;
+}
+#x-icon-2{
+  height:5rem;
+  width:5rem;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../images/x-icon.png");
+  pointer-events: none;
+}
+.uk-icon {
+  height:5rem;
+  width:5rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../images/uk-icon.png");
+}
+.nl-icon {
+  height:5rem;
+  width:5rem;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url("../images/nl-icon.png");
+}
 .gear-area {
     position: absolute;
     bottom: 0;
