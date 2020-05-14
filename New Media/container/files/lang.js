@@ -10,6 +10,11 @@ $('#lang-selector').click( function() {
 			$(this).css('background-image','url("../images/uk-icon.png")')
 		}
 		$(this).fadeIn(400)
+		$('#positive .away').text(script[lang]['positive_away']);
+		$('#positive .over').text(script[lang]['positive_over']);
+		$('#negative .away').text(script[lang]['positive_away']);
+		$('#negative .over').text(script[lang]['negative_over']);
+		$('#dialogue-next').text(script[lang]['dialogue_next']);
 	})
 })
 var script = {

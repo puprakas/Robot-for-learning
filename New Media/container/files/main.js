@@ -200,9 +200,6 @@
 				}
 				return images[i]
 			}
-			function getDefaultLang(i) {
-
-			}
 			let searchParams = new URLSearchParams(window.location.search)
 			var img_id = searchParams.has('mode') ?  searchParams.get('mode') : 0
 			var lvl = searchParams.has('level') ?  searchParams.get('level') : 0
@@ -210,6 +207,11 @@
 			if (searchParams.has('lang') && searchParams.get('lang') != 0) {
 				$('#lang-selector').remove()
 			}
+			$('#positive .away').text(script[lang]['positive_away']);
+			$('#positive .over').text(script[lang]['positive_over']);
+			$('#negative .away').text(script[lang]['positive_away']);
+			$('#negative .over').text(script[lang]['negative_over']);
+			$('#dialogue-next').text(script[lang]['dialogue_next']);
 			var picked = false;
 			var locked = false
 			var target_img = getImage(img_id).img
@@ -282,6 +284,9 @@
 			function getKeyByValue(object, value) {
 				return Object.keys(object).find(key => object[key] === value);
 			}
+			function getRandomInt(max) {
+				return Math.floor(Math.random() * Math.floor(max));
+			}
 			function getRandomNumber(min, max) {
 			    return Math.floor(Math.random() * (max - min + 1)) + min;
 			}
@@ -315,7 +320,7 @@
 			}
 			early_game()
 			function early_game() {
-				$('#text-area').text(script[lang][0][0])
+				$('#text-area').text(script[lang]['text_0'][getRandomInt(script[lang]['text_0'].length)].replace('#ROW#', req_row ? req_row : '').replace('#COL#', req_col ? req_col : '').replace('#COLOUR#', req_colour ? req_colour : ''))
 				$('#next-area').fadeIn(900)
 				$('#dialogue-next').click(function() {
 					$('#next-area').fadeOut(400, function() {
@@ -326,9 +331,9 @@
 			}
 			function mid_game() {
 				$('#next-area').fadeOut(400, function () {
-					var req_row = size - getRandomNumber(0, 7) - 1
+					var req_row = size - getRandomInt(8) - 1
 					while(rowOccupied(req_row)) {
-						req_row = size - getRandomNumber(0, 7) - 1
+						req_row = size - getRandomInt(8) - 1
 					}
 					var noise = getNoise(lvl, req_row)
 					highlightRow(req_row)
@@ -404,11 +409,11 @@
 			}
 			function insideRow(req_row){
 				colours = getColours()
-				var req_col = getRandomNumber(0, 7)
+				var req_col = getRandomInt(8)
 				while(squareOccupiedOrWhite(req_row, req_col)) {
-					req_col = getRandomNumber(0, 7)
+					req_col = getRandomInt(8)
 				}
-				var req_colour = target_img[req_row][req_col]
+				var req_colour = target_img[size-req_row-1][req_col]
 				$('.highlight').fadeOut(400)
 				$('#text-area').text(script[lang][8][0] + colours[req_colour] + script[lang][8][1] + numberToPrint(req_col) + script[lang][8][2] + numberToPrint(req_row)  + script[lang][8][3])
 				$('#ball-area').fadeIn(900)
