@@ -69,7 +69,7 @@
 				cursory = cursory + 50 > $( document ).height() ? $( document ).height() - 50 : cursory;
 				ball.css("left", cursorx + 'px');
 				ball.css("top", cursory + 'px');
-			};
+			}; 
 			function animateFace(expression){
 				switch(expression) {
 					case 0:
@@ -115,8 +115,8 @@
 					0: {
 						name: 'flag',
 						desc: {
-							'english': 'our flag',
-							'dutch': ''
+							'en': 'our flag',
+							'nl': ''
 						},
 						img: [
 							[2,2,2,2,2,2,2,2],
@@ -132,8 +132,8 @@
 					1: {
 						name: 'fruit',
 						desc: {
-							'english': 'fruits',
-							'dutch': ''
+							'en': 'fruits',
+							'nl': ''
 						},
 						img: [
 							[0,0,0,0,4,4,0,0],
@@ -149,8 +149,8 @@
 					2: {
 						name: 'flower',
 						desc: {
-							'english': 'flowers',
-							'dutch': ''
+							'en': 'flowers',
+							'nl': ''
 						},
 						img: [
 							[0,0,0,0,0,5,6,5],
@@ -166,8 +166,8 @@
 					3: {
 						name: 'lion',
 						desc: {
-							'english': 'a lion',
-							'dutch': ''
+							'en': 'a lion',
+							'nl': ''
 						},
 						img: [
 							[0,1,1,1,1,1,1,0],
@@ -183,8 +183,8 @@
 					4: {
 						name: 'rainbow',
 						desc: {
-							'english': 'a rainbow',
-							'dutch': ''
+							'en': 'a rainbow',
+							'nl': ''
 						},
 						img: [
 							[0,0,0,1,1,0,0,0],
@@ -256,30 +256,6 @@
 						break
 				}
 				return noise
-			}
-			function numberToPrint(number) {
-				if (lang == 'en') {
-					switch(number){
-						case 0:
-							return ((number + 1) + 'st')
-						case 1:
-							return ((number + 1) + 'nd')
-						case 2:
-							return ((number + 1) + 'rd')
-						default:
-							return ((number + 1) + 'th')
-					}
-				}
-				else {
-					switch(number){
-						case 1:
-							return ((number + 1) + 'ste')
-						case 8:
-							return ((number + 1) + 'ste')
-						default:
-							return ((number + 1) + 'de')
-					}
-				}
 			}
 			function getKeyByValue(object, value) {
 				return Object.keys(object).find(key => object[key] === value);
@@ -400,6 +376,7 @@
 			function end_game() {
 				$('#next-area').fadeOut(400, function () {
 					animateFace(1)
+					$(".board-bg").addClass('board-shine')
 					$('#text-area').text(script[lang]['text_6'][getRandomInt(script[lang]['text_6'].length)].replace('#DESC#', getImage(img_id).desc[lang]))
 					$('#next-area').fadeIn(900)
 					$('#dialogue-next').click(function() {
@@ -411,6 +388,7 @@
 							$('#dialogue-next').click(function() {
 								$('#dialogue-next').unbind()
 								$('.curtain').fadeOut(2000, function() {
+									$(".board-bg").removeClass('board-shine')
 									$('#ball-area').fadeIn(900)
 									$('#next-area').fadeOut(400)
 									$('.curtain').fadeIn(1500)
