@@ -516,7 +516,7 @@
 								$('#ball-area').fadeOut(400, function() {
 									$('#text-area').text(script[lang]['text_15'][getRandomInt(script[lang]['text_15'].length)])
 									animateFace(1)
-									board_state[req_row][req_col] =  target_img[req_row][req_col]
+									board_state[size-req_row-1][req_col] =  target_img[size-req_row-1][req_col]
 									$('#next-area').fadeIn(900)
 									$('#dialogue-next').click(function() {
 										animateFace(0)
