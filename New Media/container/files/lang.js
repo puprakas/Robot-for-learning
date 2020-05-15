@@ -9,59 +9,71 @@ $('#lang-selector').click( function() {
 			lang = 'en'
 			$(this).css('background-image','url("../images/uk-icon.png")')
 		}
-		$(this).fadeIn(400)
 		$('#positive .away').text(script[lang]['positive_away']);
 		$('#positive .over').text(script[lang]['positive_over']);
-		$('#negative .away').text(script[lang]['positive_away']);
+		$('#negative .away').text(script[lang]['negative_away']);
 		$('#negative .over').text(script[lang]['negative_over']);
 		$('#dialogue-next').text(script[lang]['dialogue_next']);
+		$(this).fadeIn(400)
 	})
 })
 var script = {
-	'en': [
-		['Intro text'],
-		['I think this is the ', ' row. Do you think so too?'],
-		['Oh no, wait! I think I was wrong after all. Which row would this one be?'],
-		['Then which row do you think this is?'],
-		['Yes we agree! That is indeed the ', ' row!'],
-		['Oh wait. I think I was right. That is indeed the ', ' row.'],
-		['Wow! What a beautiful picture we have drawn! I think I can see ', ' in the picture!'],
-		['I think we have enough time left to draw some more! Follow me!'],
-		['Place the ', ' ball in the ', ' position of the ', ' row.'],
-		['Oh, now I see! It is actually the ', ' row!'],
-		['You are right! Silly me! It is indeed the ', ' row!'],
-		['Oh, that is not quite right. Let us try again!'],
-		['Which row do you think that is?'],
-		['This can\'t be the ', ' row! I think that\'s the ', ' row.'],
-		['Place the ', ' ball in the ', ' square of the ', ' row.'],
-		['Yay! We did it!'],
-		['Let\'s keep going!'],
-		['That is not the right square! I believe that is the ', ' square. Let\'s try again!'],
-		['I don\'t think that is the ', ' ball!'],
-		['You picked the ', ' ball! Now place it in the ', ' square of the ', ' row.'],
-		['Welcome to the sandbox mode! We can play as much you would like here!']
-	],
-	'nl':[
-		['ToDo '],
-		['ToDo ', ' ToDo'],
-		['ToDo '],
-		['ToDo '],
-		['ToDo ', ' ToDo'],
-		['ToDo ', ' ToDo'],
-		['ToDo ', ' ToDo'],
-		['ToDo '],
-		['ToDo ', ' ToDo ', ' ToDo ', ' ToDo'],
-		['ToDo ', ' ToDo'],
-		['ToDo ', ' ToDo'],
-		['ToDo '],
-		['ToDo '],
-		['ToDo ', ' ToDo ', ' ToDo'],
-		['ToDo ', ' ToDo ', ' ToDo ', ' ToDo'],
-		['ToDo '],
-		['ToDo '],
-		['ToDo ', ' ToDo'],
-		['ToDo ', ' ToDo'],
-		['ToDo ', ' ToDo ', ' ToDo ', ' ToDo'],
-		['ToDo ']
-	]
+	'en': {
+		'text_0': ['Intro text'],
+		'text_1': ['I think this is row #ROW#. Do you think so too?'],
+		'text_2': ['Oh no, wait! I think I was wrong after all. Which row would this one be?'],
+		'text_3': ['Then which row do you think this is?'],
+		'text_4': ['Yes we agree! That is indeed row #ROW#'],
+		'text_5': ['Oh wait. I think I was right. That is indeed row #ROW#'],
+		'text_6': ['Wow! What a beautiful picture we have drawn! I think I can see #DESC# in the picture!'],
+		'text_7': ['I think we have enough time left to draw some more! Follow me!'],
+		'text_8': ['Place the #COLOUR# ball in position #COL# of row #ROW#.'],
+		'text_9': ['Oh, now I see! It is actually row #ROW#!'],
+		'text_10': ['You are right! Silly me! It is indeed row #ROW#!'],
+		'text_11': ['Oh, that is not quite right. Let us try again!'],
+		'text_12': ['Which row do you think that is?'],
+		'text_13': ['This can\'t be row #ROW1#! I think that\'s row #ROW2#.'],
+		'text_14': ['Place the #COLOUR# ball in square #COL# of row #ROW#.'],
+		'text_15': ['Yay! We did it!'],
+		'text_16': ['Let\'s keep going!'],
+		'text_17': ['That is not the right square! I believe that is square #COL#. Let\'s try again!'],
+		'text_18': ['I don\'t think that is the #COLOUR# ball!'],
+		'text_19': ['You picked the #COLOUR# ball! Now place it in square #COL# of row #ROW#.'],
+		'text_20': ['Welcome to the sandbox mode! We can play as much you would like here!'],
+		'text_21': ['I\'m going to select some rows, and you can put the balls in. But I\'m not sure if I\'ve got the number right. Can you help me with that? I know the bottom row is row 1, and the top row is row 8.'],
+		'positive_away': 'Yes',
+		'positive_over': 'That is right!',
+		'negative_away': 'No',
+		'negative_over': 'That is wrong!',
+		'dialogue_next': 'Next'
+	},
+	'nl':{
+		'text_0': ['Laten we een spelletje spelen! Ik heb hier een doos gekleurde ballen. Kun jij me helpen de ballen op de goede plek te leggen?'],
+		'text_1': ['Ik denk dat dit rij #ROW# is. Denk jij dat ook?', 'Volgens mij is dit rij #ROW#. Denk jij dat ook?'],
+		'text_2': ['Wacht! Volgens mij had ik het toch fout. Welke rij denk jij dat het is?'],
+		'text_3': ['Welke rij denk jij dan dat het is?'],
+		'text_4': ['Ja, dat dacht ik ook! Dit is inderdaad rij #ROW#!'],
+		'text_5': ['Oh, wacht. Volgens mij had ik toch gelijk. Het is inderdaad rij #ROW#.'],
+		'text_6': ['Wauw! We hebben een heel mooi plaatje gemaakt! Ik denk dat ik #DESC# zie!'],
+		'text_7': ['We hebben nog wat tijd om meer plaatjes te maken. Volg mij!'],
+		'text_8': ['Stop de #COLOUR# bal op plek #COL# van rij #ROW#.'],
+		'text_9': ['Oh, ik weet het! Het is rij #ROW#!'],
+		'text_10': ['Je hebt gelijk! Wat dom van me. Het is inderdaad rij #ROW#!'],
+		'text_11': ['Oh, volgens mij klopt dat ook niet. Laten we het opnieuw proberen!'],
+		'text_12': ['Welke rij zou het wel kunnen zijn?'],
+		'text_13': ['Volgens mij is dat niet rij #ROW1#! Ik denk dat het rij #ROW2# is.'],
+		'text_14': ['Stop de #COLOUR# bal op plek #COL# van rij #ROW#.'],
+		'text_15': ['Ja! Het is gelukt!'],
+		'text_16': ['Laten we er nog een doen.', 'Kom, we pakken nog een bal.'],
+		'text_17': ['Dat is niet de goede plek! Volgens mij is dat plek #COL#.'],
+		'text_18': ['Ik denk niet dat je de #COLOUR# bal hebt gepakt.'],
+		'text_19': ['Ja, dat is de #COLOUR# bal! Plaats hem nu op plek #COL# van rij #ROW#.'],
+		'text_20': ['Welkom bij het speelplein! Hier kunnen we zoveel plaatjes maken als we willen!'],
+		'text_21': ['Ik ga wat rijen kiezen, en jij kunt dan de ballen op de goede plek leggen. Maar ik weet niet of ik de getallen goed begrijp. Kun jij me daarmee helpen? Ik weet dat de onderste rij 1 is, en de bovenste rij 8.'],
+		'positive_away': 'Ja',
+		'positive_over': 'Dat klopt!',
+		'negative_away': 'Nee',
+		'negative_over': 'Dat is fout!',
+		'dialogue_next': 'Volgende'
+	}
 }

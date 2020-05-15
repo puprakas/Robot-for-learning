@@ -320,35 +320,49 @@
 			}
 			early_game()
 			function early_game() {
-				$('#text-area').text(script[lang]['text_0'][getRandomInt(script[lang]['text_0'].length)].replace('#ROW#', req_row ? req_row : '').replace('#COL#', req_col ? req_col : '').replace('#COLOUR#', req_colour ? req_colour : ''))
+				$('#text-area').text(script[lang]['text_0'][getRandomInt(script[lang]['text_0'].length)])
 				$('#next-area').fadeIn(900)
 				$('#dialogue-next').click(function() {
 					$('#next-area').fadeOut(400, function() {
 						$('#dialogue-next').unbind()
-							mid_game()
+						let req_row = size - getRandomInt(8) - 1
+						highlightRow(req_row)
+						$('#next-area').fadeOut(400, function () {
+							$('#text-area').text(script[lang]['text_21'][getRandomInt(script[lang]['text_21'].length)])
+							$('#next-area').fadeIn(900)
+							$('#dialogue-next').click(function() {
+								$('#next-area').fadeOut(400, function() {
+									$('#dialogue-next').unbind()
+									mid_game(req_row)
+								})						
+							})
 						})
-				});
+					})
+				})
 			}
-			function mid_game() {
+			function mid_game(init_row=null) {
+				var req_row = init_row
 				$('#next-area').fadeOut(400, function () {
-					var req_row = size - getRandomInt(8) - 1
-					while(rowOccupied(req_row)) {
+					if (req_row==null) {
 						req_row = size - getRandomInt(8) - 1
+						while(rowOccupied(req_row)) {
+							req_row = size - getRandomInt(8) - 1
+						}
+						highlightRow(req_row)
 					}
 					var noise = getNoise(lvl, req_row)
-					highlightRow(req_row)
-					$('#text-area').text(script[lang][1][0] + numberToPrint(req_row + noise) + script[lang][1][1])
+					$('#text-area').text(script[lang]['text_1'][getRandomInt(script[lang]['text_1'].length)].replace('#ROW#', req_row + noise + 1))
 					$('#button-area').fadeIn(900)
 					if(noise!=0) {
 						$('#positive').click( function() {
 							$('#button-area').fadeOut(400, function () {
-								$('#text-area').text(script[lang][2][0])
+								$('#text-area').text(script[lang]['text_2'][getRandomInt(script[lang]['text_2'].length)])
 								trialRow(req_row)
 							})
 						})
 						$('#negative').click( function() {
 							$('#button-area').fadeOut(400, function () {
-								$('#text-area').text(script[lang][3][0])
+								$('#text-area').text(script[lang]['text_3'][getRandomInt(script[lang]['text_3'].length)])
 								trialRow(req_row)
 							})
 						})
@@ -357,7 +371,7 @@
 						$('#positive').click( function() {
 							$('#button-area').fadeOut(400, function () {
 								animateFace(1)
-								$('#text-area').text(script[lang][4][0] + numberToPrint(req_row) + script[lang][4][1])
+								$('#text-area').text(script[lang]['text_4'][getRandomInt(script[lang]['text_4'].length)].replace('#ROW#', req_row+1))
 								$('#next-area').fadeIn(900)
 								$('#dialogue-next').click(function() {
 									animateFace(0)
@@ -370,7 +384,7 @@
 						})
 						$('#negative').click( function() {
 							$('#button-area').fadeOut(400, function () {
-								$('#text-area').text(script[lang][5][0] + numberToPrint(req_row) + script[lang][5][1])
+								$('#text-area').text(script[lang]['text_5'][getRandomInt(script[lang]['text_5'].length)].replace('#ROW#', req_row+1))
 								$('#next-area').fadeIn(900)
 								$('#dialogue-next').click(function() {
 									$('#next-area').fadeOut(400, function () {
@@ -386,13 +400,13 @@
 			function end_game() {
 				$('#next-area').fadeOut(400, function () {
 					animateFace(1)
-					$('#text-area').text(script[lang][6][0] + getImage(img_id).desc[lang] + script[lang][6][1])
+					$('#text-area').text(script[lang]['text_6'][getRandomInt(script[lang]['text_6'].length)].replace('#DESC#', getImage(img_id).desc[lang]))
 					$('#next-area').fadeIn(900)
 					$('#dialogue-next').click(function() {
 						animateFace(0)
 						$('#dialogue-next').unbind()
 						$('#next-area').fadeOut(400, function () {
-							$('#text-area').text(script[lang][7][0])
+							$('#text-area').text(script[lang]['text_7'][getRandomInt(script[lang]['text_7'].length)])
 							$('#next-area').fadeIn(900)
 							$('#dialogue-next').click(function() {
 								$('#dialogue-next').unbind()
@@ -415,7 +429,7 @@
 				}
 				var req_colour = target_img[size-req_row-1][req_col]
 				$('.highlight').fadeOut(400)
-				$('#text-area').text(script[lang][8][0] + colours[req_colour] + script[lang][8][1] + numberToPrint(req_col) + script[lang][8][2] + numberToPrint(req_row)  + script[lang][8][3])
+				$('#text-area').text(script[lang]['text_8'][getRandomInt(script[lang]['text_8'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
 				$('#ball-area').fadeIn(900)
 				trialColour(req_row, req_col, req_colour)
 			}
@@ -427,7 +441,7 @@
 					}
 					if (t_counter==2) {
 						$('#numberinput-area').fadeOut(400, function () {
-							$('#text-area').text(script[lang][9][0] + numberToPrint(req_row) + script[lang][9][1])
+							$('#text-area').text(script[lang]['text_9'][getRandomInt(script[lang]['text_9'].length)].replace('#ROW#', req_row+1))
 							$('#next-area').fadeIn(900)
 							$('#dialogue-next').click(function() {
 								$('#next-area').fadeOut(400, function () {
@@ -439,7 +453,7 @@
 						})
 					}
 					else if (($('#number').val()-1)==req_row) {
-						$('#text-area').text(script[lang][10][0] + numberToPrint(req_row) + script[lang][10][1])
+						$('#text-area').text(script[lang]['text_10'][getRandomInt(script[lang]['text_10'].length)].replace('#ROW#', req_row+1))
 						animateFace(2)
 						$('#numberinput-area').fadeOut(400, function () {
 							$('#next-area').fadeIn(900)
@@ -455,14 +469,14 @@
 					} else if ( ($('#number').val()-1) != req_row || t_counter < 2) {
 						$('#numberinput-area').fadeOut(400, function () {
 						t_counter = t_counter + 1
-						$('#text-area').text(script[lang][11][0])
+							$('#text-area').text(script[lang]['text_11'][getRandomInt(script[lang]['text_11'].length)])
 							$('#next-area').fadeIn(900)
 							animateFace(2)
 							$('#dialogue-next').click(function() {
 								animateFace(0)
 								$('#dialogue-next').unbind()
 								$('#next-area').fadeOut(400, function () {
-									$('#text-area').text(script[lang][12][0])
+									$('#text-area').text(script[lang]['text_12'][getRandomInt(script[lang]['text_12'].length)])
 									$('#numberinput-area').fadeIn(900)
 								});
 							});
@@ -482,7 +496,7 @@
 							picked = false
 							locked = true
 							if(req_row != parseInt(curr_square.id.split('_')[1]/8)) {
-								$('#text-area').text(script[lang][13][0] + numberToPrint(req_row) + script[lang][13][1] + numberToPrint(parseInt(curr_square.id.split('_')[1]/8)) + script[lang][13][2])
+								$('#text-area').text(script[lang]['text_13'][getRandomInt(script[lang]['text_13'].length)].replace('#ROW1#', req_row+1).replace('#ROW2#', parseInt(curr_square.id.split('_')[1]/8) +1))
 								animateFace(2)
 								row_indicator.fadeIn(2500, function() {
 									row_indicator.fadeOut(2500)
@@ -493,14 +507,14 @@
 									$('#dialogue-next').unbind()
 									$('#next-area').fadeOut(400, function() {
 										popColour($('#'+curr_square.id))
-										$('#text-area').text(script[lang][14][0] + colours[req_colour] + script[lang][14][1] + numberToPrint(req_col) + script[lang][14][2] + numberToPrint(req_row) + script[lang][14][3])
+										$('#text-area').text(script[lang]['text_14'][getRandomInt(script[lang]['text_14'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
 										locked = false
 									})
 								})
 							}
 							else if(req_col == ( size - curr_square.id.split('_')[1] % 8 -1)) {
 								$('#ball-area').fadeOut(400, function() {
-									$('#text-area').text(script[lang][15][0])
+									$('#text-area').text(script[lang]['text_15'][getRandomInt(script[lang]['text_15'].length)])
 									animateFace(1)
 									board_state[req_row][req_col] =  target_img[req_row][req_col]
 									$('#next-area').fadeIn(900)
@@ -509,7 +523,7 @@
 										getHandlers().map(x => x.unbind())
 										$('#next-area').fadeOut(400, function () {
 											if (!imageFilled()) {
-												$('#text-area').text(script[lang][16][0])
+												$('#text-area').text(script[lang]['text_16'][getRandomInt(script[lang]['text_16'].length)])
 												$('#next-area').fadeIn(900)
 												$('#dialogue-next').click(function() {
 													$('#dialogue-next').unbind();
@@ -525,8 +539,7 @@
 								})
 							}
 							else {
-								$('#text-area').text(script[lang][17][0]
-									+ numberToPrint( size - curr_square.id.split('_')[1] % 8 - 1) + script[lang][17][1])
+								$('#text-area').text(script[lang]['text_17'][getRandomInt(script[lang]['text_17'].length)].replace('#COL#', (size - curr_square.id.split('_')[1] % 8 - 1)))
 								$('#next-area').fadeIn(900)
 								$('#dialogue-next').click(function() {
 									$('#dialogue-next').unbind()
@@ -540,7 +553,7 @@
 											})
 										})
 										popColour($('#'+curr_square.id))
-										$('#text-area').text(script[lang][14][0] + colours[req_colour] + script[lang][14][1] + numberToPrint(req_col) + script[lang][14][2] + numberToPrint(req_row) + script[lang][14][3])
+										$('#text-area').text(script[lang]['text_14'][getRandomInt(script[lang]['text_14'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
 										locked = false
 									})
 								});
@@ -559,14 +572,14 @@
 						$('#ball').addClass(this.className.split(/\s+/)[1])
 						picked = true
 						if(req_colour != chosen_colour) {
-							$('#text-area').text(script[lang][18][0] + colours[req_colour] + script[lang][18][1])
+							$('#text-area').text(script[lang]['text_18'][getRandomInt(script[lang]['text_18'].length)].replace('#COLOUR#', colours[req_colour]))
 							$('#ball').fadeOut(400, function() {
 								picked = false
 								locked = false
 							})
 						}
-						else {
-							$('#text-area').text(script[lang][19][0] + colours[req_colour] + script[lang][19][1] + numberToPrint(req_col) + script[lang][19][2] + numberToPrint(req_row) + script[lang][19][3])
+						else {	
+							$('#text-area').text(script[lang]['text_19'][getRandomInt(script[lang]['text_19'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
 							locked = true
 							trialCol(req_row, req_col, req_colour, picked)
 						}
