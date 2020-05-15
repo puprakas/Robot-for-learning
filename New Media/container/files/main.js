@@ -345,7 +345,7 @@
 				$('#next-area').fadeOut(400, function () {
 					if (req_row==null) {
 						req_row = size - getRandomInt(8) - 1
-						while(rowOccupied(req_row)) {
+						while(rowOccupied(size-req_row-1)) {
 							req_row = size - getRandomInt(8) - 1
 						}
 						highlightRow(req_row)
@@ -424,7 +424,7 @@
 			function insideRow(req_row){
 				colours = getColours()
 				var req_col = getRandomInt(8)
-				while(squareOccupiedOrWhite(req_row, req_col)) {
+				while(squareOccupiedOrWhite(size-req_row-1, req_col)) {
 					req_col = getRandomInt(8)
 				}
 				var req_colour = target_img[size-req_row-1][req_col]
@@ -591,7 +591,7 @@
 				$('.square').each(function(){
 					popColour($(this))
 				})
-				$('#text-area').text(script[lang][20][0])
+				$('#text-area').text(script[lang]['text_20'][getRandomInt(script[lang]['text_20'].length)])
 				$('.option').click(function() {
 					$('#ball').removeClass();
 					$('#ball').css('display', 'block');
