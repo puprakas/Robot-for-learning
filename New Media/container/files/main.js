@@ -110,96 +110,6 @@
 						break
 				}
 			}
-			function getImage(i) {
-				images = {
-					0: {
-						name: 'flag',
-						desc: {
-							'en': 'our flag',
-							'nl': ''
-						},
-						img: [
-							[2,2,2,2,2,2,2,2],
-							[2,1,1,1,1,1,1,2],
-							[2,1,1,1,1,1,1,2],
-							[2,0,0,0,0,0,0,2],
-							[2,0,0,0,0,0,0,2],
-							[2,5,5,5,5,5,5,2],
-							[2,5,5,5,5,5,5,2],
-							[2,2,2,2,2,2,2,2]
-						]
-					},
-					1: {
-						name: 'fruit',
-						desc: {
-							'en': 'fruits',
-							'nl': ''
-						},
-						img: [
-							[0,0,0,0,4,4,0,0],
-							[0,0,0,0,0,3,0,0],
-							[0,0,0,0,0,3,3,0],
-							[0,0,0,0,0,3,4,4],
-							[3,0,0,0,3,1,1,0],
-							[3,3,3,3,1,1,1,1],
-							[0,3,3,3,1,1,1,1],
-							[0,0,0,0,0,1,1,0]
-						]
-					},
-					2: {
-						name: 'flower',
-						desc: {
-							'en': 'flowers',
-							'nl': ''
-						},
-						img: [
-							[0,0,0,0,0,5,6,5],
-							[5,6,5,0,0,6,3,6],
-							[6,3,6,0,0,5,6,5],
-							[5,6,5,2,1,2,4,0],
-							[0,4,0,1,3,1,4,0],
-							[0,4,0,2,1,2,0,0],
-							[0,0,0,0,4,0,0,0],
-							[0,0,0,0,4,0,0,0]
-						]
-					},
-					3: {
-						name: 'lion',
-						desc: {
-							'en': 'a lion',
-							'nl': ''
-						},
-						img: [
-							[0,1,1,1,1,1,1,0],
-							[1,3,3,1,1,3,3,1],
-							[1,3,3,3,3,3,3,1],
-							[1,1,5,3,3,5,1,1],
-							[1,1,3,3,3,3,1,1],
-							[1,1,3,2,2,3,1,1],
-							[0,1,1,3,3,1,1,0],
-							[0,0,1,1,1,1,0,0]
-						]
-					},
-					4: {
-						name: 'rainbow',
-						desc: {
-							'en': 'a rainbow',
-							'nl': ''
-						},
-						img: [
-							[0,0,0,1,1,0,0,0],
-							[0,1,1,2,2,1,1,0],
-							[1,2,2,3,3,2,2,1],
-							[2,3,3,4,4,3,3,2],
-							[3,4,4,5,5,4,4,3],
-							[4,5,5,6,6,5,5,4],
-							[5,6,6,0,0,6,6,5],
-							[6,0,0,0,0,0,0,6]
-						]
-					}
-				}
-				return images[i]
-			}
 			let searchParams = new URLSearchParams(window.location.search)
 			var img_id = searchParams.has('mode') ?  searchParams.get('mode') : 0
 			var lvl = searchParams.has('level') ?  searchParams.get('level') : 0
@@ -214,7 +124,7 @@
 			$('#dialogue-next').text(script[lang]['dialogue_next']);
 			var picked = false;
 			var locked = false
-			var target_img = getImage(img_id).img
+			var target_img = images[img_id].img
 			var board_state = [
 				[0,0,0,0,0,0,0,0],
 				[0,0,0,0,0,0,0,0],
@@ -377,7 +287,7 @@
 				$('#next-area').fadeOut(400, function () {
 					animateFace(1)
 					$(".board-bg").addClass('board-shine')
-					$('#text-area').text(script[lang]['text_6'][getRandomInt(script[lang]['text_6'].length)].replace('#DESC#', getImage(img_id).desc[lang]))
+					$('#text-area').text(script[lang]['text_6'][getRandomInt(script[lang]['text_6'].length)].replace('#DESC#', images[img_id].desc[lang]))
 					$('#next-area').fadeIn(900)
 					$('#dialogue-next').click(function() {
 						animateFace(0)
@@ -485,7 +395,7 @@
 									$('#dialogue-next').unbind()
 									$('#next-area').fadeOut(400, function() {
 										popColour($('#'+curr_square.id))
-										$('#text-area').text(script[lang]['text_14'][getRandomInt(script[lang]['text_14'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
+										$('#text-area').text(script[lang]['text_8'][getRandomInt(script[lang]['text_8'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
 										locked = false
 									})
 								})
@@ -531,7 +441,7 @@
 											})
 										})
 										popColour($('#'+curr_square.id))
-										$('#text-area').text(script[lang]['text_14'][getRandomInt(script[lang]['text_14'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
+										$('#text-area').text(script[lang]['text_8'][getRandomInt(script[lang]['text_8'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
 										locked = false
 									})
 								});
