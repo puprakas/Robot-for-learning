@@ -54,7 +54,7 @@ var script = {
 		'text_4': ['Ja, dat dacht ik ook! Dit is inderdaad rij #ROW#!'],
 		'text_5': ['Oh, wacht. Volgens mij had ik toch gelijk. Het is inderdaad rij #ROW#.'],
 		'text_6': ['Wauw! We hebben een heel mooi plaatje gemaakt! Ik denk dat ik #DESC# zie!'],
-		'text_7': ['We hebben tijd over om nog meer plaatjes te maken! Kom je mee?'],
+		'text_7': ['We hebben tijd over om nog meer plaatjes te maken! Kom met met mee!'],
 		'text_8': ['Stop de #COLOUR# bal op plek #COL# van rij #ROW#.', 'Plaats de #COLOUR# bal op plek #COL# van rij #ROW#.'],
 		'text_9': ['Oh, ik weet het! Het is rij #ROW#!'],
 		'text_10': ['Je hebt gelijk! Wat dom van me. Het is inderdaad rij #ROW#!', 'Dat klopt! Ik had het fout. Het is inderdaad rij #ROW#!'],
