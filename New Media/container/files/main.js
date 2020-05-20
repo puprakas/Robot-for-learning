@@ -119,7 +119,7 @@
 			}
 			$('#positive .away').text(script[lang]['positive_away']);
 			$('#positive .over').text(script[lang]['positive_over']);
-			$('#negative .away').text(script[lang]['positive_away']);
+			$('#negative .away').text(script[lang]['negative_away']);
 			$('#negative .over').text(script[lang]['negative_over']);
 			$('#dialogue-next').text(script[lang]['dialogue_next']);
 			var picked = false;
@@ -427,7 +427,7 @@
 								})
 							}
 							else {
-								$('#text-area').text(script[lang]['text_17'][getRandomInt(script[lang]['text_17'].length)].replace('#COL#', (size - curr_square.id.split('_')[1] % 8 - 1)))
+								$('#text-area').text(script[lang]['text_17'][getRandomInt(script[lang]['text_17'].length)].replace('#COL#', (size - curr_square.id.split('_')[1] % 8 - 1)+1))
 								$('#next-area').fadeIn(900)
 								$('#dialogue-next').click(function() {
 									$('#dialogue-next').unbind()
