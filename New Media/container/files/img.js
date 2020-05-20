@@ -3,7 +3,7 @@ images = {
 		name: 'flag',
 		desc: {
 			'en': 'our flag',
-			'nl': ''
+			'nl': 'onze vlag'
 		},
 		img: [
 			[2,2,2,2,2,2,2,2],
@@ -20,7 +20,7 @@ images = {
 		name: 'fruit',
 		desc: {
 			'en': 'fruits',
-			'nl': ''
+			'nl': 'fruit'
 		},
 		img: [
 			[0,0,0,0,4,4,0,0],
@@ -37,7 +37,7 @@ images = {
 		name: 'flower',
 		desc: {
 			'en': 'flowers',
-			'nl': ''
+			'nl': 'bloemen'
 		},
 		img: [
 			[0,0,0,0,0,5,6,5],
@@ -54,7 +54,7 @@ images = {
 		name: 'lion',
 		desc: {
 			'en': 'a lion',
-			'nl': ''
+			'nl': 'een leeuw'
 		},
 		img: [
 			[0,1,1,1,1,1,1,0],
@@ -71,7 +71,7 @@ images = {
 		name: 'rainbow',
 		desc: {
 			'en': 'a rainbow',
-			'nl': ''
+			'nl': 'een regenboog'
 		},
 		img: [
 			[0,0,0,1,1,0,0,0],
