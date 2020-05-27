@@ -7,7 +7,6 @@
 			}
 			var square_h = parseInt($('.square').css("height").replace(/[^-\d\.]/g, '')) + 0.8;
 			var extra_padding = parseInt($('.board-bg').css("padding-top").replace(/[^-\d\.]/g, ''));
-
 			var slider = $('.range-slider');
 			var highlighter = $('.highlight');
 			highlighter.css("margin-top", (extra_padding + (square_h * (size / 2))) + 'px');
@@ -135,17 +134,6 @@
 				[0,0,0,0,0,0,0,0],
 				[0,0,0,0,0,0,0,0]
 			]
-			function getColours() {
-				return {
-					0:'white',
-					1:'red',
-					2:'orange',
-					3:'yellow',
-					4:'green',
-					5:'blue',
-					6:'purple'
-				}
-			}
 			function getNoise(lvl, target_row) {
 				var noise = 0;
 				switch(parseInt(lvl)) {
@@ -192,6 +180,14 @@
 			function popColour(obj) {
 				if (obj.attr('class').split(' ').length > 1) {
 					obj.removeClass(obj.attr('class').split(' ').pop());
+				}
+			}
+			function paintBlankAsWhite() {
+				for (var i = 0; i < size*size; i++) {
+					let tmp_square = $('#square_'+i)
+					if (tmp_square.attr('class').split(' ').length == 1) {
+						setTimeout(function(){tmp_square.addClass('white-option')}, 400)
+					}
 				}
 			}
 			function highlightRow(x) {
@@ -276,7 +272,6 @@
 									$('#next-area').fadeOut(400, function () {
 										insideRow(req_row)
 									})
-									
 								});
 							})
 						})
@@ -286,6 +281,7 @@
 			function end_game() {
 				$('#next-area').fadeOut(400, function () {
 					animateFace(1)
+					paintBlankAsWhite()
 					$(".board-bg").addClass('board-shine')
 					$('#text-area').text(script[lang]['text_6'][getRandomInt(script[lang]['text_6'].length)].replace('#DESC#', images[img_id].desc[lang]))
 					$('#next-area').fadeIn(900)
@@ -310,14 +306,13 @@
 				})
 			}
 			function insideRow(req_row){
-				colours = getColours()
 				var req_col = getRandomInt(8)
 				while(squareOccupiedOrWhite(size-req_row-1, req_col)) {
 					req_col = getRandomInt(8)
 				}
 				var req_colour = target_img[size-req_row-1][req_col]
 				$('.highlight').fadeOut(400)
-				$('#text-area').text(script[lang]['text_8'][getRandomInt(script[lang]['text_8'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
+				$('#text-area').text(script[lang]['text_8'][getRandomInt(script[lang]['text_8'].length)].replace('#COLOUR#', colours[lang][req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
 				$('#ball-area').fadeIn(900)
 				trialColour(req_row, req_col, req_colour)
 			}
@@ -373,7 +368,6 @@
 				})
 			}
 			function trialCol(req_row, req_col, req_colour, picked){
-				colours = getColours()
 				$('.square').click(function() {
 					var curr_square = this
 					if(picked) {
@@ -395,7 +389,7 @@
 									$('#dialogue-next').unbind()
 									$('#next-area').fadeOut(400, function() {
 										popColour($('#'+curr_square.id))
-										$('#text-area').text(script[lang]['text_8'][getRandomInt(script[lang]['text_8'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
+										$('#text-area').text(script[lang]['text_8'][getRandomInt(script[lang]['text_8'].length)].replace('#COLOUR#', colours[lang][req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
 										locked = false
 									})
 								})
@@ -441,7 +435,7 @@
 											})
 										})
 										popColour($('#'+curr_square.id))
-										$('#text-area').text(script[lang]['text_8'][getRandomInt(script[lang]['text_8'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
+										$('#text-area').text(script[lang]['text_8'][getRandomInt(script[lang]['text_8'].length)].replace('#COLOUR#', colours[lang][req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
 										locked = false
 									})
 								});
@@ -451,23 +445,22 @@
 				})
 			}
 			function trialColour(req_row, req_col, req_colour){
-				colours = getColours()
 				$('.option').click(function() {
 					if(!locked){
-						var chosen_colour = getKeyByValue(colours, this.className.split(/\s+/)[1].split('-')[0])
+						var chosen_colour = getKeyByValue(colours[lang], this.className.split(/\s+/)[1].split('-')[0])
 						$('#ball').removeClass();
 						$('#ball').fadeIn(900)
 						$('#ball').addClass(this.className.split(/\s+/)[1])
 						picked = true
 						if(req_colour != chosen_colour) {
-							$('#text-area').text(script[lang]['text_18'][getRandomInt(script[lang]['text_18'].length)].replace('#COLOUR#', colours[req_colour]))
+							$('#text-area').text(script[lang]['text_18'][getRandomInt(script[lang]['text_18'].length)].replace('#COLOUR#', colours[lang][req_colour]))
 							$('#ball').fadeOut(400, function() {
 								picked = false
 								locked = false
 							})
 						}
 						else {	
-							$('#text-area').text(script[lang]['text_19'][getRandomInt(script[lang]['text_19'].length)].replace('#COLOUR#', colours[req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
+							$('#text-area').text(script[lang]['text_19'][getRandomInt(script[lang]['text_19'].length)].replace('#COLOUR#', colours[lang][req_colour]).replace('#ROW#', req_row+1).replace('#COL#', req_col+1))
 							locked = true
 							trialCol(req_row, req_col, req_colour, picked)
 						}

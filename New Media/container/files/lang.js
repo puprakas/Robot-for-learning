@@ -75,3 +75,23 @@ var script = {
 		'dialogue_next': 'Volgende \u00bb'
 	}
 }
+var colours = {
+	'en':{
+		0:'white',
+		1:'red',
+		2:'orange',
+		3:'yellow',
+		4:'green',
+		5:'blue',
+		6:'purple'
+	},
+	'nl':{
+		0:'witte',
+		1:'rode',
+		2:'oranje',
+		3:'gele',
+		4:'groene',
+		5:'blauwe',
+		6:'paarse'
+	}
+}
