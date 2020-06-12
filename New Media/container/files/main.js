@@ -447,7 +447,7 @@
 			function trialColour(req_row, req_col, req_colour){
 				$('.option').click(function() {
 					if(!locked){
-						var chosen_colour = getKeyByValue(colours[lang], this.className.split(/\s+/)[1].split('-')[0])
+						var chosen_colour = getKeyByValue(colours['en'], this.className.split(/\s+/)[1].split('-')[0])
 						$('#ball').removeClass();
 						$('#ball').fadeIn(900)
 						$('#ball').addClass(this.className.split(/\s+/)[1])
