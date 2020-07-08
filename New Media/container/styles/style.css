@@ -209,18 +209,15 @@ button:focus{
   border-radius: 0 8px 8px 0;
 }
 
-/* form #input-wrap {
-  margin: 0px;
-  padding: 0px;
-} */
-
 input#number {
   text-align: center;
   border: none;
   border-top: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
   margin: 0px;
-  width: 40px;
+  width: 52px;
+  background-color: #f7f7f7;
+  font-weight: bold;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -230,14 +227,11 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .numberinput-area {
-  margin-top: 2vh;
-  text-align: center;
-  padding-top: 50px;
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  font-weight: bold;
-
+	text-align: center;
+    padding: 50px 0 20px 0;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
 }
 
 .numberinput-btn {
@@ -1089,9 +1083,5 @@ input[type="radio"]:checked:before {
     min-height: 6vw;
     width: 6vw;
   }
-
-}
-
-@media screen and (max-width: 479px) {
 
 }
